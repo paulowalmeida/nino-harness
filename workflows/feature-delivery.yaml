@@ -6,6 +6,7 @@ owner: nino-orchestrator
 approvalPoints:
   - contract
   - ownership-or-architecture
+  - feedback-promotion
   - production-action
 
 stages:
@@ -56,11 +57,28 @@ stages:
   - id: qa
     agent: qa
     dependsOn: [backend, frontend, surface-discovery]
-    output: qa-report
+    output: qa-handoff
+
+  - id: qa-routing
+    agent: nino-orchestrator
+    dependsOn: [qa]
+    output: routing-decision
+    note: If QA reports a defect, route correction to frontend-dev, backend-dev or both, then return to QA before release.
+
+  - id: retrospective
+    agent: learning-curator
+    dependsOn: [security, testing, qa-routing]
+    output: feedback-record
+
+  - id: learning-review
+    agent: learning-curator
+    dependsOn: [retrospective]
+    output: learning-decision
+    approval: feedback-promotion
 
   - id: documentation
     agent: documentation
-    dependsOn: [security, testing, qa]
+    dependsOn: [security, testing, qa-routing, learning-review]
     output: documentation-handoff
 
   - id: release

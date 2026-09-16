@@ -17,6 +17,8 @@ The gate passes only when all hooks pass:
 - `contract-guard`: work-order and workflow contracts preserve their required
   structure;
 - `secret-guard`: no supported credential pattern is present in tracked files.
+- `feedback-guard`: retained learning is approved, evidenced and structurally
+  valid; ephemeral feedback is not allowed in the versioned repository.
 
 The gate checks harness integrity; it does not replace the product-specific
 hooks and gates in `nino-api`, `nino-app` or `nino-docs`.

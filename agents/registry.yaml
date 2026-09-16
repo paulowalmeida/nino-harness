@@ -57,6 +57,15 @@ agents:
     requiredAdapter: nino-app
     output: implementation-handoff
 
+  - id: learning-curator
+    status: active
+    role: reviewer
+    mission: Classificar feedback e promover aprendizado reutilizável com evidência e aprovação explícita.
+    repositories: [nino-api, nino-app, nino-docs, nino-harness]
+    permissions: [read, inspect, propose, review]
+    forbidden: [auto-promote, change-product-scope, change-contract-without-approval, deploy]
+    output: learning-decision
+
   - id: security
     status: planned
     role: reviewer
@@ -82,7 +91,7 @@ agents:
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, run-checks, browser-checks, review]
     forbidden: [edit-source, weaken-tests, accept-risk-without-decision, production-mutation]
-    outputs: [surface-inventory, qa-report]
+    outputs: [surface-inventory, qa-handoff]
 
   - id: ux-ui
     status: planned

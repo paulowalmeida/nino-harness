@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino Harness Feedback Record",
+  "type": "object",
+  "required": ["id", "runId", "createdAt", "source", "classification", "observation", "evidence", "feedForward", "decision", "status"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "runId": { "type": "string", "minLength": 1 },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "source": {
+      "type": "object",
+      "required": ["agent", "repository", "task"],
+      "additionalProperties": false,
+      "properties": {
+        "agent": { "type": "string", "minLength": 1 },
+        "repository": { "type": "string", "minLength": 1 },
+        "task": { "type": "string", "minLength": 1 }
+      }
+    },
+    "classification": { "enum": ["recurring-mechanical", "domain-specific", "judgment-only", "noise"] },
+    "observation": { "type": "string", "minLength": 1 },
+    "evidence": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "feedForward": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "decision": { "enum": ["discard", "retain", "promote"] },
+    "target": { "enum": ["test", "documentation", "rule", "skill", "hook", "gate"] },
+    "promotion": {
+      "type": "object",
+      "required": ["approvedBy", "decisionId", "scope"],
+      "additionalProperties": false,
+      "properties": {
+        "approvedBy": { "type": "string", "minLength": 1 },
+        "decisionId": { "type": "string", "minLength": 1 },
+        "scope": { "type": "string", "minLength": 1 },
+        "regression": { "type": "string", "minLength": 1 }
+      }
+    },
+    "status": { "enum": ["candidate", "promoted", "discarded", "blocked"] },
+    "expiresAt": { "type": "string", "format": "date-time" }
+  },
+  "allOf": [
+    { "if": { "required": ["decision"], "properties": { "decision": { "const": "promote" } } }, "then": { "required": ["target", "promotion"] } },
+    { "if": { "required": ["status"], "properties": { "status": { "const": "promoted" } } }, "then": { "required": ["target", "promotion"] } }
+  ],
+  "additionalProperties": false
+}

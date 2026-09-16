@@ -8,6 +8,7 @@ const hooks = [
   'profile-guard.mjs',
   'contract-guard.mjs',
   'secret-guard.mjs',
+  'feedback-guard.mjs',
 ]
 
 let failed = false

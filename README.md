@@ -12,7 +12,7 @@ Harness compartilhado para os agentes que trabalham no ecossistema Nino.
 - `hooks/`: verificações mecânicas da integridade do próprio harness;
 - `registry.yaml`: catálogo de agentes, permissões e capacidades;
 - `workflows/`: sequências de trabalho entre agentes;
-- `templates/`: formatos de handoff, work order e relatórios.
+- `templates/`: formatos de handoff, work order e relatórios opcionais.
 
 Hooks, gates e regras que dependem da estrutura de um repositório permanecem
 no próprio repositório. O harness central define o protocolo; o projeto local
@@ -44,6 +44,20 @@ npm run harness:guard
 
 Esse comando valida registry, referências, perfis, contratos e padrões de
 credenciais. Ele não substitui os hooks e gates específicos dos projetos.
+
+## Aprendizado dos agentes
+
+Retrospectivas e avaliações de uma execução devem ser temporárias por padrão,
+em `/tmp/nino-harness-feedback/<run-id>`. O `learning-curator` pode encaminhar
+esse contexto para a próxima iteração e descartar o material depois. Somente
+lições aprovadas, evidenciadas e protegidas por uma regra, Skill, hook, gate,
+documentação ou teste podem entrar em `feedback/retained/`.
+
+O guard do harness valida os registros retidos:
+
+```bash
+npm run harness:feedback:guard
+```
 
 ## Regra de evolução
 

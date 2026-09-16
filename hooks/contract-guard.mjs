@@ -33,6 +33,20 @@ if (schema) {
   if (allowedStatuses.length !== 4) errors.push('work-order schema must define all four work-order statuses')
 }
 
+let feedbackSchema
+try {
+  feedbackSchema = JSON.parse(await readText('contracts/feedback-record.schema.json'))
+} catch {
+  errors.push('contracts/feedback-record.schema.json is not valid JSON')
+}
+
+if (feedbackSchema) {
+  for (const field of ['id', 'runId', 'createdAt', 'source', 'classification', 'observation', 'evidence', 'feedForward', 'decision', 'status']) {
+    if (!feedbackSchema.required?.includes(field)) errors.push(`feedback schema missing required field: ${field}`)
+  }
+  if (feedbackSchema.additionalProperties !== false) errors.push('feedback schema must reject additional properties')
+}
+
 try {
   const workflow = await readText('workflows/feature-delivery.yaml')
   if (!/^version:\s*1\s*$/m.test(workflow)) errors.push('feature-delivery.yaml must declare version: 1')

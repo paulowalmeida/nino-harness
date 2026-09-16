@@ -8,6 +8,7 @@
     "harness:references": "node hooks/reference-guard.mjs",
     "harness:profiles": "node hooks/profile-guard.mjs",
     "harness:contracts": "node hooks/contract-guard.mjs",
-    "harness:secrets": "node hooks/secret-guard.mjs"
+    "harness:secrets": "node hooks/secret-guard.mjs",
+    "harness:feedback:guard": "node hooks/feedback-guard.mjs"
   }
 }
