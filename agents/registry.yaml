@@ -48,12 +48,12 @@ agents:
     output: implementation-handoff
 
   - id: frontend-dev
-    status: planned
+    status: active
     role: implementer
     mission: Implementar mudanças no nino-app respeitando sua arquitetura de Pages.
     repositories: [nino-app]
-    permissions: [read, inspect, edit-source, run-checks]
-    forbidden: [change-api-contract-without-approval, deploy]
+    permissions: [read, inspect, edit-source, edit-tests, run-checks]
+    forbidden: [change-api-contract-without-approval, change-product-scope, commit-without-request, deploy]
     requiredAdapter: nino-app
     output: implementation-handoff
 

@@ -24,7 +24,7 @@ for (const agent of agents) {
   }
 
   if (!/^## (?:Mission|Missão)\s*$/m.test(profile)) errors.push(`${agent.id}: missing Mission section`)
-  if (!/^## (?:Output|Implementation handoff|Formato de saída|Critério de sucesso)\s*$/m.test(profile)) {
+  if (!/^## (?:Output|Implementation handoff|Verification and handoff|Formato de saída|Critério de sucesso)\s*$/m.test(profile)) {
     errors.push(`${agent.id}: missing output or completion section`)
   }
 }

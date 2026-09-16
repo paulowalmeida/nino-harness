@@ -22,9 +22,11 @@ fornece a implementação técnica.
 
 - `nino-orchestrator`: planejamento, roteamento e coordenação;
 - `backend-dev`: implementação disciplinada de NestJS/Prisma no `nino-api`;
+- `frontend-dev`: implementação disciplinada de Pages, facades, Hooks, estado
+  e Design System no `nino-app`;
 - `qa`: discovery da superfície, validação funcional, integração e regressão
   com evidências;
-- os agentes `frontend-dev`, `testing`, `security`, `ux-ui`,
+- os agentes `testing`, `security`, `ux-ui`,
   `documentation` e `release` são perfis em evolução.
 
 O workflow estruturado está em `workflows/feature-delivery.yaml`. O arquivo

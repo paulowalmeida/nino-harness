@@ -147,6 +147,9 @@ These lessons are mandatory for future QA work:
   path or a fresh query. Cross-region options alone are `NEEDS-EVIDENCE` until
   the BFF contract and configured delivery geography establish the expected
   behavior.
+- For controlled masked inputs, add a browser-level typing smoke in addition
+  to component tests. A passing mask/owner-state test does not prove that the
+  real input DOM reflects the state during the journey.
 
 ## Feedback loop
 
