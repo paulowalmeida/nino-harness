@@ -12,6 +12,8 @@ The gate passes only when all hooks pass:
   structurally valid;
 - `language-guard`: human-readable harness artifacts contain no Brazilian
   Portuguese;
+- `evals-guard`: the scenario catalog is declarative, unique, and uses only
+  supported deterministic assertions;
 - `reference-guard`: active profiles, adapters, workflows and agent references
   resolve; planned profiles are reported as warnings;
 - `profile-guard`: profiles have valid frontmatter, mission and completion
@@ -24,3 +26,7 @@ The gate passes only when all hooks pass:
 
 The gate checks harness integrity; it does not replace the product-specific
 hooks and gates in `nino-api`, `nino-app` or `nino-docs`.
+
+CI also runs `npm run evals:run` and uploads the structured result as an
+artifact. The evaluation suite measures deterministic harness enforcement; it
+does not claim to measure real-agent behavior until that execution path exists.

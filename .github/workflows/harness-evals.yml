@@ -1,0 +1,46 @@
+name: Nino Harness Evals
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/harness-evals.yml'
+      - 'AGENTS.md'
+      - 'agents/**'
+      - 'adapters/**'
+      - 'contracts/**'
+      - 'gates/**'
+      - 'hooks/**'
+      - 'evals/**'
+      - 'rules/**'
+      - 'workflows/**'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/harness-evals.yml'
+      - 'AGENTS.md'
+      - 'agents/**'
+      - 'adapters/**'
+      - 'contracts/**'
+      - 'gates/**'
+      - 'hooks/**'
+      - 'evals/**'
+      - 'rules/**'
+      - 'workflows/**'
+
+jobs:
+  deterministic-evals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm run harness:guard
+      - run: npm run harness:test
+      - run: npm run evals:run -- --output-dir eval-artifacts
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: nino-harness-evals
+          path: eval-artifacts/
+          if-no-files-found: error

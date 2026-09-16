@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino Harness Evaluation Run",
+  "type": "object",
+  "required": ["schemaVersion", "runId", "startedAt", "completedAt", "evaluationKind", "scenarios", "metrics"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "runId": { "type": "string", "minLength": 1 },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "completedAt": { "type": "string", "format": "date-time" },
+    "evaluationKind": { "const": "deterministic-harness" },
+    "scenarios": { "type": "array", "items": { "type": "object" } },
+    "metrics": { "type": "object" },
+    "comparison": { "type": ["object", "null"] },
+    "regressions": { "type": "array", "items": { "type": "object" } }
+  },
+  "additionalProperties": false
+}

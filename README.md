@@ -10,6 +10,7 @@ Shared harness for agents working across the Nino ecosystem.
 - `rules/base/`: rules shared by all projects;
 - `gates/`: shared quality checkpoints;
 - `hooks/`: mechanical integrity checks for the harness itself;
+- `evals/`: deterministic scenarios, assertions, metrics, and CI artifacts;
 - `registry.yaml`: agent, permission, and capability catalog;
 - `workflows/`: work sequences between agents;
 - `templates/`: handoff, work-order, and optional report formats.
@@ -48,6 +49,12 @@ npm run harness:guard
 This command validates the registry, references, profiles, contracts,
 language policy, and credential patterns. It does not replace project-specific
 hooks and gates.
+
+Run the deterministic evaluation suite with:
+
+```bash
+npm run evals:run
+```
 
 ## Agent learning
 

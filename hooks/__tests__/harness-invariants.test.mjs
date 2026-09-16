@@ -2,6 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { test } from 'node:test'
 import { findPortugueseLines } from '../language-guard.mjs'
+import { runEvaluations } from '../../evals/runners/eval-runner.mjs'
 
 const root = new URL('../../', import.meta.url)
 const read = (path) => readFile(new URL(path, root), 'utf8')
@@ -53,4 +54,14 @@ test('business contracts reject undocumented fields', async () => {
     assert.equal(schema.additionalProperties, false, path)
     assert.ok(schema.required.length > 0, path)
   }
+})
+
+test('deterministic eval runner emits honest metrics', async () => {
+  const { payload, exitCode } = await runEvaluations()
+  assert.equal(exitCode, 0)
+  assert.equal(payload.metrics.scenarioCount, 12)
+  assert.equal(payload.metrics.failed, 0)
+  assert.equal(payload.metrics.humanInterventionRate, null)
+  assert.equal(payload.metrics.selfCorrectionRate, null)
+  assert.equal(payload.evaluationKind, 'deterministic-harness')
 })

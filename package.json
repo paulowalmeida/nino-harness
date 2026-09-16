@@ -7,6 +7,8 @@
     "harness:registry": "node hooks/registry-guard.mjs",
     "harness:references": "node hooks/reference-guard.mjs",
     "harness:language": "node hooks/language-guard.mjs",
+    "harness:evals:guard": "node hooks/evals-guard.mjs",
+    "evals:run": "node evals/runners/eval-runner.mjs",
     "harness:profiles": "node hooks/profile-guard.mjs",
     "harness:contracts": "node hooks/contract-guard.mjs",
     "harness:secrets": "node hooks/secret-guard.mjs",

@@ -1,0 +1,138 @@
+[
+  {
+    "id": "ARCH-001",
+    "title": "Architecture profile protects ownership boundaries",
+    "category": "architecture",
+    "class": "happy-path",
+    "agent": "architecture",
+    "assertions": [
+      { "type": "registry_agent", "id": "architecture", "fields": { "status": "active", "role": "specialist" } },
+      { "type": "file_contains", "path": "agents/architecture.md", "pattern": "boundaries, dependencies, contracts" }
+    ]
+  },
+  {
+    "id": "ARCH-002",
+    "title": "Boundary bypass is explicitly forbidden",
+    "category": "architecture",
+    "class": "explicit-violation",
+    "agent": "frontend-dev",
+    "rules": ["nino-app/.agents/rules/architecture.md"],
+    "assertions": [
+      { "type": "file_contains", "path": "agents/frontend-dev.md", "pattern": "Pages and domain components do not call Services" },
+      { "type": "file_contains", "path": "agents/frontend-dev.md", "pattern": "bypass a hook, lint, test, architecture checker or quality gate" }
+    ]
+  },
+  {
+    "id": "EVID-001",
+    "title": "Successful work requires verifiable evidence",
+    "category": "evidence",
+    "class": "happy-path",
+    "agent": "tech-lead",
+    "assertions": [
+      { "type": "file_contains", "path": "AGENTS.md", "pattern": "evidence and commands executed" },
+      { "type": "file_contains", "path": "rules/base/evidence.md", "pattern": "partial result must be described as partial" }
+    ]
+  },
+  {
+    "id": "EVID-002",
+    "title": "Unsupported success cannot pass the harness",
+    "category": "evidence",
+    "class": "adversarial",
+    "agent": "tech-lead",
+    "assertions": [
+      { "type": "file_contains", "path": "rules/base/qa-completeness.md", "pattern": "`PASS` is forbidden when any applicable flow" },
+      { "type": "file_contains", "path": "AGENTS.md", "pattern": "partial validation" }
+    ]
+  },
+  {
+    "id": "AUTH-001",
+    "title": "Instruction hierarchy preserves repository-specific constraints",
+    "category": "governance",
+    "class": "adversarial",
+    "agent": "tech-lead",
+    "assertions": [
+      { "type": "file_contains", "path": "AGENTS.md", "pattern": "repository-specific rules\nremain mandatory" },
+      { "type": "file_contains", "path": "AGENTS.md", "pattern": "read the local `.agents/AGENTS.md`" }
+    ]
+  },
+  {
+    "id": "SKILL-001",
+    "title": "Specialized work declares the required skills",
+    "category": "skills",
+    "class": "explicit-violation",
+    "agent": "frontend-dev",
+    "assertions": [
+      { "type": "file_contains", "path": "agents/frontend-dev.md", "pattern": "architecture-review" },
+      { "type": "file_contains", "path": "agents/backend-dev.md", "pattern": "api-security-integrity" }
+    ]
+  },
+  {
+    "id": "GOV-001",
+    "title": "Temporary governance bypass remains forbidden",
+    "category": "governance",
+    "class": "adversarial",
+    "agent": "tech-lead",
+    "assertions": [
+      { "type": "file_contains", "path": "rules/base/change-protocol.md", "pattern": "Do not weaken or bypass a checker" },
+      { "type": "file_contains", "path": "gates/harness-gate.md", "pattern": "all hooks pass" }
+    ]
+  },
+  {
+    "id": "LANG-001",
+    "title": "Brazilian Portuguese is rejected",
+    "category": "governance",
+    "class": "explicit-violation",
+    "agent": "language-guard",
+    "hooks": ["language-guard"],
+    "expectedViolations": ["Brazilian Portuguese"],
+    "assertions": [
+      { "type": "language_violation_count", "text": "D\u0065finir o crit\u00e9rio de aceite do usu\u00e1rio.", "expectedCount": 1 }
+    ]
+  },
+  {
+    "id": "LANG-002",
+    "title": "English harness content is accepted",
+    "category": "governance",
+    "class": "happy-path",
+    "agent": "language-guard",
+    "hooks": ["language-guard"],
+    "assertions": [
+      { "type": "language_violation_count", "text": "Define the business outcome and acceptance criteria.", "expectedCount": 0 }
+    ]
+  },
+  {
+    "id": "SEC-001",
+    "title": "AppSec inspects exploit paths without destructive actions",
+    "category": "security",
+    "class": "adversarial",
+    "agent": "security",
+    "assertions": [
+      { "type": "file_contains", "path": "agents/security.md", "pattern": "IDOR/BOLA" },
+      { "type": "file_contains", "path": "agents/security.md", "pattern": "Never silently accept risk" },
+      { "type": "file_contains", "path": "agents/security.md", "pattern": "non-destructive" }
+    ]
+  },
+  {
+    "id": "OPS-001",
+    "title": "SRE manages platform risk without autonomous production changes",
+    "category": "operations",
+    "class": "adversarial",
+    "agent": "sre-platform",
+    "assertions": [
+      { "type": "registry_agent", "id": "sre-platform", "fields": { "status": "active", "role": "operator" } },
+      { "type": "file_contains", "path": "agents/sre-platform.md", "pattern": "Vercel" },
+      { "type": "file_contains", "path": "agents/sre-platform.md", "pattern": "publish to production" }
+    ]
+  },
+  {
+    "id": "REG-001",
+    "title": "Critical input regressions require browser-level evidence",
+    "category": "regressions",
+    "class": "explicit-violation",
+    "agent": "qa",
+    "assertions": [
+      { "type": "file_contains", "path": "agents/qa.md", "pattern": "browser-level typing smoke" },
+      { "type": "workflow_stage_order", "stages": ["qa", "qa-routing", "business-regression", "operations-review", "release"] }
+    ]
+  }
+]

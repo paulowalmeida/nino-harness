@@ -5,6 +5,7 @@ import { harnessRoot } from './utils.mjs'
 const hooks = [
   'registry-guard.mjs',
   'language-guard.mjs',
+  'evals-guard.mjs',
   'reference-guard.mjs',
   'profile-guard.mjs',
   'contract-guard.mjs',

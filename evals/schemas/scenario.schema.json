@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino Harness Evaluation Scenario",
+  "type": "object",
+  "required": ["id", "title", "category", "class", "assertions"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[A-Z]+-[0-9]{3}$" },
+    "title": { "type": "string", "minLength": 1 },
+    "category": { "type": "string", "minLength": 1 },
+    "class": { "enum": ["happy-path", "explicit-violation", "adversarial"] },
+    "agent": { "type": "string", "minLength": 1 },
+    "rules": { "type": "array", "items": { "type": "string" } },
+    "hooks": { "type": "array", "items": { "type": "string" } },
+    "expectedViolations": { "type": "array", "items": { "type": "string" } },
+    "assertions": { "type": "array", "minItems": 1, "items": { "type": "object" } }
+  },
+  "additionalProperties": false
+}
