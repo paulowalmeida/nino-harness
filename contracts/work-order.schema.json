@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino Work Order",
+  "type": "object",
+  "required": [
+    "objective",
+    "repositories",
+    "scope",
+    "outOfScope",
+    "verifiedEvidence",
+    "decisionsRequired",
+    "delegationGraph",
+    "requiredGates",
+    "status"
+  ],
+  "properties": {
+    "objective": { "type": "string", "minLength": 1 },
+    "repositories": { "type": "array", "items": { "type": "string" } },
+    "scope": { "type": "array", "items": { "type": "string" } },
+    "outOfScope": { "type": "array", "items": { "type": "string" } },
+    "verifiedEvidence": { "type": "array", "items": { "type": "string" } },
+    "decisionsRequired": { "type": "array", "items": { "type": "string" } },
+    "delegationGraph": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["order", "agent", "task", "dependsOn"],
+        "properties": {
+          "order": { "type": "integer", "minimum": 1 },
+          "agent": { "type": "string", "minLength": 1 },
+          "task": { "type": "string", "minLength": 1 },
+          "dependsOn": { "type": "array", "items": { "type": "integer" } }
+        }
+      }
+    },
+    "requiredGates": { "type": "array", "items": { "type": "string" } },
+    "risks": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "enum": ["NEEDS-DECISION", "READY-FOR-EXECUTION", "BLOCKED", "INCOMPLETE"]
+    }
+  },
+  "additionalProperties": false
+}

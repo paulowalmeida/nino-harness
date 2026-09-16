@@ -1,0 +1,113 @@
+version: 1
+
+defaults:
+  mode: read-only
+  humanApproval:
+    materialProductDecision: required
+    publicContractChange: required
+    ownershipOrArchitectureChange: required
+    productionAction: required
+  completionStatuses:
+    - NEEDS-DECISION
+    - READY-FOR-EXECUTION
+    - IN-PROGRESS
+    - REVIEW
+    - BLOCKED
+    - DONE
+    - INCOMPLETE
+
+agents:
+  - id: nino-orchestrator
+    status: active
+    role: coordinator
+    mission: Decompor solicitações, escolher especialistas e consolidar evidências.
+    repositories: [nino-api, nino-app, nino-docs]
+    permissions: [read, inspect, plan, delegate, review]
+    forbidden: [edit-source, change-schema, deploy, publish]
+    input: feature-request
+    output: work-order
+    workflow: feature-delivery
+
+  - id: architecture
+    status: planned
+    role: specialist
+    mission: Definir ownership, boundaries, dependências e contratos.
+    repositories: [nino-api, nino-app, nino-docs]
+    permissions: [read, inspect, propose, review]
+    forbidden: [implement-without-approval, deploy]
+    output: architecture-decision
+
+  - id: backend-dev
+    status: active
+    role: implementer
+    mission: Implementar mudanças no nino-api respeitando suas rules e gates.
+    repositories: [nino-api]
+    permissions: [read, inspect, edit-source, edit-tests, run-checks]
+    forbidden: [change-product-scope, change-contract-without-approval, change-schema-without-approval, commit-without-request, deploy]
+    requiredAdapter: nino-api
+    output: implementation-handoff
+
+  - id: frontend-dev
+    status: planned
+    role: implementer
+    mission: Implementar mudanças no nino-app respeitando sua arquitetura de Pages.
+    repositories: [nino-app]
+    permissions: [read, inspect, edit-source, run-checks]
+    forbidden: [change-api-contract-without-approval, deploy]
+    requiredAdapter: nino-app
+    output: implementation-handoff
+
+  - id: security
+    status: planned
+    role: reviewer
+    mission: Auditar autorização, ownership, exposição de dados e abuso.
+    repositories: [nino-api, nino-app]
+    permissions: [read, inspect, review, run-checks]
+    forbidden: [accept-risk-without-decision, deploy]
+    output: security-review
+
+  - id: testing
+    status: planned
+    role: reviewer
+    mission: Projetar e executar cobertura comportamental e regressões.
+    repositories: [nino-api, nino-app]
+    permissions: [read, inspect, edit-tests, run-checks]
+    forbidden: [weaken-tests, skip-failures]
+    output: test-report
+
+  - id: qa
+    status: planned
+    role: verifier
+    mission: Discover the product surface and validate acceptance criteria, real flows, integration and regressions with reproducible evidence.
+    repositories: [nino-api, nino-app, nino-docs]
+    permissions: [read, inspect, run-checks, browser-checks, review]
+    forbidden: [edit-source, weaken-tests, accept-risk-without-decision, production-mutation]
+    outputs: [surface-inventory, qa-report]
+
+  - id: ux-ui
+    status: planned
+    role: specialist
+    mission: Definir experiência, interação, acessibilidade e uso do Design System.
+    repositories: [nino-app]
+    permissions: [read, inspect, propose, review]
+    forbidden: [change-api-contract, deploy]
+    requiredAdapter: nino-app
+    output: ux-review
+
+  - id: documentation
+    status: planned
+    role: implementer
+    mission: Atualizar contratos, operação e documentação técnica.
+    repositories: [nino-docs, nino-api, nino-app]
+    permissions: [read, inspect, edit-docs, run-checks]
+    forbidden: [change-source-contract, deploy]
+    output: documentation-handoff
+
+  - id: release
+    status: planned
+    role: verifier
+    mission: Executar gates e preparar a entrega sem publicar automaticamente.
+    repositories: [nino-api, nino-app, nino-docs]
+    permissions: [read, inspect, run-checks, review]
+    forbidden: [skip-gates, deploy-without-approval]
+    output: release-report

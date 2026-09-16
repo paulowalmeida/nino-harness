@@ -1,0 +1,70 @@
+version: 1
+id: feature-delivery
+trigger: manual
+owner: nino-orchestrator
+
+approvalPoints:
+  - contract
+  - ownership-or-architecture
+  - production-action
+
+stages:
+  - id: brief
+    agent: nino-orchestrator
+    dependsOn: []
+    output: work-order
+
+  - id: architecture
+    agent: architecture
+    dependsOn: [brief]
+    output: architecture-decision
+    approval: ownership-or-architecture
+
+  - id: contract
+    agent: architecture
+    dependsOn: [architecture]
+    output: approved-contract
+    approval: contract
+
+  - id: surface-discovery
+    agent: qa
+    dependsOn: [brief, contract]
+    output: surface-inventory
+
+  - id: backend
+    agent: backend-dev
+    dependsOn: [contract, surface-discovery]
+    parallelGroup: implementation
+    output: implementation-handoff
+
+  - id: frontend
+    agent: frontend-dev
+    dependsOn: [contract]
+    parallelGroup: implementation
+    output: implementation-handoff
+
+  - id: security
+    agent: security
+    dependsOn: [backend, frontend]
+    output: security-review
+
+  - id: testing
+    agent: testing
+    dependsOn: [backend, frontend]
+    output: test-report
+
+  - id: qa
+    agent: qa
+    dependsOn: [backend, frontend, surface-discovery]
+    output: qa-report
+
+  - id: documentation
+    agent: documentation
+    dependsOn: [security, testing, qa]
+    output: documentation-handoff
+
+  - id: release
+    agent: release
+    dependsOn: [documentation]
+    output: release-report
+    approval: production-action
