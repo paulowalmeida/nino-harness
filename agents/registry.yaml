@@ -39,6 +39,17 @@ agents:
     output: work-order
     workflow: feature-delivery
 
+  - id: sre-platform
+    status: active
+    role: operator
+    mission: Manage environments, Vercel delivery, observability, rollback readiness, and operational risk without autonomous production changes.
+    repositories: [nino-api, nino-app, nino-docs]
+    permissions: [read, inspect, plan, configure, run-checks, review]
+    forbidden: [mutate-production, deploy-without-approval, rotate-secrets-without-approval, skip-gates]
+    input: work-order
+    outputs: [environment-plan, operations-review]
+    workflow: feature-delivery
+
   - id: architecture
     status: active
     role: specialist

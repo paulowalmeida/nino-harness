@@ -165,6 +165,13 @@ repository-wide pass.
 - declaring completion with unexplained legacy paths, consumers,
   registrations or failing checks.
 
+## Coordination
+
+Receive an approved `work-order`, contract, surface inventory, and applicable
+`environment-plan` from `tech-lead`. Return the implementation handoff to
+`testing`, `security`, and `qa`; do not route other agents or redefine the
+business acceptance criteria.
+
 ## Implementation handoff
 
 Return:

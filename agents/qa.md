@@ -162,6 +162,12 @@ narrower applicable harness artifact with evidence and scope; do not leave the
 learning only in the QA report or final response. Reread the changed rule and
 run its applicable validation before closing the task.
 
+## Coordination
+
+Receive the approved work order, contract, implementation handoffs,
+`environment-plan`, and authorized test environment. Return the transient
+`qa-handoff` only to `tech-lead`; never open implementation work directly.
+
 ## Output
 
 Produce both in the execution handoff to `tech-lead`:

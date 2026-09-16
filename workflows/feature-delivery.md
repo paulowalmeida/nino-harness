@@ -10,7 +10,7 @@ Business brief / decisions
     ↓
 Architecture and contracts
     ├── Backend implementation
-    └── Frontend implementation
+    └── Frontend implementation → UX review when user-facing
             ↓
     Security + Testing + QA
             ↓
@@ -34,15 +34,17 @@ Architecture and contracts
    states, and related flows before implementation.
 7. **Implementation:** delegate to the correct repositories and agents using
    the discovered inventory.
-8. **Adversarial review:** test errors, repetition, concurrency, permissions,
+8. **UX review:** inspect interaction and accessibility for user-facing
+   changes; mark it not applicable with evidence for backend-only work.
+9. **Adversarial review:** test errors, repetition, concurrency, permissions,
    invalid data, and recovery when applicable.
-9. **QA loop:** validate acceptance criteria and real flows with reproducible
+10. **QA loop:** validate acceptance criteria and real flows with reproducible
    evidence. Route each failure, limit correction to three iterations, and
    return to QA after every correction.
-10. **Business regression:** the Product Owner replays every acceptance
+11. **Business regression:** the Product Owner replays every acceptance
     criterion and critical journey. Failure blocks release.
-11. **Documentation:** update contracts, operations, and relevant decisions.
-12. **Release:** execute scoped and global gates, separate unrelated failures,
+12. **Documentation:** update contracts, operations, and relevant decisions.
+13. **Release:** execute scoped and global gates, separate unrelated failures,
     and review the final diff.
 
 No phase may declare PASS without the evidence required by the repository that

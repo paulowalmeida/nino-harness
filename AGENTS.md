@@ -45,6 +45,19 @@ replace QA's functional, integration, security, accessibility, or technical
 regression checks. A failed or unverified business regression blocks release
 and returns to `tech-lead`.
 
+## Security and SRE boundaries
+
+The `security` agent is the AppSec owner for vulnerability inspection. It
+reviews exploitable behavior and security controls, returns evidence to
+`tech-lead`, and rechecks mitigations; it does not silently accept risk or
+perform destructive exploitation.
+
+The `sre-platform` agent owns environment readiness, Vercel configuration,
+observability, rollback planning, and operational risk. It prepares
+`environment-plan` before implementation and `operations-review` before
+release. It does not publish to production, rotate secrets, or bypass gates
+without the explicit approval required by the workflow.
+
 ## Handoff contract
 
 Every delegated agent must return:

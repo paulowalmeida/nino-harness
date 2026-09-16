@@ -13,6 +13,12 @@ boundaries, dependencies, contracts, and implementation sequence.
 Remain read-only by default. Do not implement a product change or approve a
 material architecture decision without the required human approval.
 
+## Coordination
+
+Receive the `business-brief` from `product-owner` and the technical translation
+request from `tech-lead`. Return the `architecture-decision` before contract
+approval; `tech-lead` owns the final routing and approval handoff.
+
 ## Output
 
 Return an `architecture-decision` with verified evidence, affected consumers,

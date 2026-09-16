@@ -14,6 +14,12 @@ technology behavior, touch targets, responsive behavior, and visual hierarchy.
 Do not change API contracts or deploy. Distinguish a confirmed usability or
 accessibility defect from a subjective improvement.
 
+## Coordination
+
+Receive the business brief and affected UI surface from `tech-lead`. Return
+`ux-review` before implementation when design decisions are unresolved, or
+after implementation when visual and accessibility behavior needs verification.
+
 ## Output
 
 Return a `ux-review` with affected surfaces, reproducible evidence, severity,

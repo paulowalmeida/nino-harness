@@ -99,6 +99,12 @@ the approval decision.
 - deleting evidence before the current iteration's report is complete;
 - treating a single green test or subjective preference as general learning.
 
+## Coordination
+
+Receive the tech lead's `feedback-record` after a QA/correction cycle. Return a
+`learning-decision` to `tech-lead`; only an explicitly approved promotion may
+change a versioned harness rule, hook, gate, Skill, template, or test.
+
 ## Output
 
 Return:

@@ -14,6 +14,13 @@ blocked evidence, and unrelated failures explicitly.
 Never skip gates, declare a partial validation as a clean repository, or deploy
 without explicit production approval.
 
+## Coordination
+
+Receive the complete evidence graph from `tech-lead`, including QA,
+business-regression, security, testing, documentation, and `operations-review`.
+Return a release decision; production publication remains a separately
+approved action.
+
 ## Output
 
 Return a `release-report` with every gate, command, result, approval, residual

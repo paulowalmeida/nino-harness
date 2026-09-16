@@ -33,6 +33,11 @@ stages:
     output: approved-contract
     approval: contract
 
+  - id: environment-readiness
+    agent: sre-platform
+    dependsOn: [contract]
+    output: environment-plan
+
   - id: surface-discovery
     agent: qa
     dependsOn: [brief, contract]
@@ -40,29 +45,35 @@ stages:
 
   - id: backend
     agent: backend-dev
-    dependsOn: [contract, surface-discovery]
+    dependsOn: [contract, surface-discovery, environment-readiness]
     parallelGroup: implementation
     output: implementation-handoff
 
   - id: frontend
     agent: frontend-dev
-    dependsOn: [contract]
+    dependsOn: [contract, environment-readiness]
     parallelGroup: implementation
     output: implementation-handoff
 
+  - id: ux-review
+    agent: ux-ui
+    dependsOn: [frontend]
+    output: ux-review
+    optionalWhen: non-user-facing-change
+
   - id: security
     agent: security
-    dependsOn: [backend, frontend]
+    dependsOn: [backend, frontend, ux-review]
     output: security-review
 
   - id: testing
     agent: testing
-    dependsOn: [backend, frontend]
+    dependsOn: [backend, frontend, ux-review]
     output: test-report
 
   - id: qa
     agent: qa
-    dependsOn: [backend, frontend, surface-discovery]
+    dependsOn: [backend, frontend, surface-discovery, ux-review]
     output: qa-handoff
 
   - id: qa-routing
@@ -95,9 +106,14 @@ stages:
     output: business-regression
     approval: business-acceptance
 
+  - id: operations-review
+    agent: sre-platform
+    dependsOn: [security, testing, qa-routing, learning-review, business-regression]
+    output: operations-review
+
   - id: documentation
     agent: documentation
-    dependsOn: [security, testing, qa-routing, learning-review, business-regression]
+    dependsOn: [security, testing, qa-routing, learning-review, business-regression, operations-review]
     output: documentation-handoff
 
   - id: release

@@ -57,6 +57,29 @@ const requiredSchemas = {
     'decision',
     'status',
   ],
+  'contracts/security-review.schema.json': [
+    'id',
+    'taskId',
+    'scope',
+    'findings',
+    'status',
+  ],
+  'contracts/environment-plan.schema.json': [
+    'id',
+    'taskId',
+    'environments',
+    'targets',
+    'checks',
+    'status',
+  ],
+  'contracts/operations-review.schema.json': [
+    'id',
+    'taskId',
+    'runId',
+    'checks',
+    'rollbackReady',
+    'status',
+  ],
 }
 
 try {
@@ -120,6 +143,11 @@ try {
   const workflow = await readText('workflows/feature-delivery.yaml')
   if (!/^version:\s*1\s*$/m.test(workflow)) errors.push('feature-delivery.yaml must declare version: 1')
   if (!/^stages:\s*$/m.test(workflow)) errors.push('feature-delivery.yaml is missing stages')
+  if (!/^      maxIterations:\s*3\s*$/m.test(workflow)) errors.push('feature-delivery.yaml must cap the QA loop at three iterations')
+  if (!/^      onExhausted:\s*BLOCKED\s*$/m.test(workflow)) errors.push('feature-delivery.yaml must block an exhausted QA loop')
+  if (!/^  - id: environment-readiness\s*$/m.test(workflow)) errors.push('feature-delivery.yaml must include environment readiness')
+  if (!/^  - id: operations-review\s*$/m.test(workflow)) errors.push('feature-delivery.yaml must include operations review')
+  if (!/^  - id: business-regression\s*$/m.test(workflow)) errors.push('feature-delivery.yaml must include business regression')
 } catch {
   errors.push('workflows/feature-delivery.yaml is missing')
 }

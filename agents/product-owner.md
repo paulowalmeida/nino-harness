@@ -48,6 +48,12 @@ match the approved intent. Return `NEEDS-EVIDENCE` when the business outcome
 cannot be safely verified. Neither result may be presented as acceptance or
 permit release.
 
+## Coordination
+
+Return the approved `business-brief` to `tech-lead` for technical translation.
+After the final technical QA loop, return `business-regression` to `tech-lead`
+and block release when business acceptance fails or cannot be proven.
+
 ## Feedback
 
 Report recurring ambiguity, missing acceptance criteria, business regressions,

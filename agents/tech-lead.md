@@ -48,6 +48,7 @@ business rules, or acceptance criteria without Product Owner approval.
 | visual behavior, interaction, and accessibility | `ux-ui` |
 | Docusaurus, contracts, and operations | `documentation` |
 | feedback evaluation and safe promotion | `learning-curator` |
+| environments, Vercel, observability, and rollback | `sre-platform` |
 | lint, type-check, gates, and delivery | `release` |
 
 ## QA and correction loop

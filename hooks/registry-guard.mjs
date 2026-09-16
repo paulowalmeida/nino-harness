@@ -17,6 +17,7 @@ const allowedRoles = new Set([
   'coordinator',
   'product-owner',
   'tech-lead',
+  'operator',
   'specialist',
   'implementer',
   'reviewer',

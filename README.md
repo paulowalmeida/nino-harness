@@ -27,6 +27,8 @@ provides the technical implementation.
   implementation in `nino-app`;
 - `qa`: surface discovery, functional validation, integration, and regression
   with evidence;
+- `sre-platform`: environment readiness, Vercel delivery, observability, and
+  rollback planning;
 - `architecture`, `testing`, `security`, `ux-ui`, `documentation`, and
   `release`: active specialist profiles.
 

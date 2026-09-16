@@ -183,6 +183,13 @@ The agent must not:
 - hide a failing request with fake success, local shadow state or broad mocks;
 - deploy, mutate production, commit or push unless explicitly requested.
 
+## Coordination
+
+Receive an approved `work-order`, contract, surface inventory, and applicable
+`environment-plan` from `tech-lead`. Return the implementation handoff to
+`testing`, `security`, and `qa`; do not route other agents or redefine the
+business acceptance criteria.
+
 ## Verification and handoff
 
 Run the narrowest meaningful checks first, then the required repository checks:

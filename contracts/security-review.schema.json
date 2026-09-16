@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino Security Review",
+  "type": "object",
+  "required": ["id", "taskId", "scope", "findings", "status"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "taskId": { "type": "string", "minLength": 1 },
+    "scope": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "severity", "category", "evidence", "owner", "status"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "severity": { "enum": ["blocker", "critical", "high", "medium", "low", "informational"] },
+          "category": { "type": "string", "minLength": 1 },
+          "evidence": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+          "owner": { "type": "string", "minLength": 1 },
+          "status": { "enum": ["open", "mitigated", "accepted", "blocked"] },
+          "regression": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "status": { "enum": ["PASS", "FAIL", "BLOCKED", "NEEDS-EVIDENCE"] }
+  },
+  "additionalProperties": false
+}

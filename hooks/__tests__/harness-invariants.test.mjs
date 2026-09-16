@@ -30,6 +30,17 @@ test('workflow enforces PO intake, controlled QA loop, and business regression',
   assert.ok(workflow.indexOf('id: product-intake') < workflow.indexOf('id: brief'))
   assert.match(workflow, /maxIterations: 3/)
   assert.ok(workflow.indexOf('id: business-regression') < workflow.indexOf('id: documentation'))
+  assert.ok(workflow.indexOf('id: environment-readiness') < workflow.indexOf('id: backend'))
+  assert.ok(workflow.indexOf('id: operations-review') < workflow.indexOf('id: documentation'))
+})
+
+test('security and SRE remain separate operational boundaries', async () => {
+  const security = await read('agents/security.md')
+  const sre = await read('agents/sre-platform.md')
+  assert.match(security, /vulnerabil|IDOR|injection/i)
+  assert.match(security, /accept risk/i)
+  assert.match(sre, /Vercel/)
+  assert.match(sre, /publish to production/i)
 })
 
 test('business contracts reject undocumented fields', async () => {
