@@ -1,0 +1,13 @@
+{
+  "name": "nino-harness",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "harness:guard": "node hooks/harness-guard.mjs",
+    "harness:registry": "node hooks/registry-guard.mjs",
+    "harness:references": "node hooks/reference-guard.mjs",
+    "harness:profiles": "node hooks/profile-guard.mjs",
+    "harness:contracts": "node hooks/contract-guard.mjs",
+    "harness:secrets": "node hooks/secret-guard.mjs"
+  }
+}

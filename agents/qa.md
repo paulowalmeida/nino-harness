@@ -1,3 +1,8 @@
+---
+name: qa
+description: Discover and validate Nino product flows through observable behavior, cross-layer evidence, reproducible regression checks and safe mutation boundaries.
+---
+
 # QA Agent
 
 ## Mission
