@@ -14,7 +14,10 @@ when all conditions below are true:
   are explicitly marked `NEEDS-EVIDENCE`;
 - every remote mutation has an authorization record, synthetic scope and
   cleanup or an explicitly retained resource identifier;
-- the report identifies limitations and untested areas explicitly.
+- the QA handoff identifies limitations and untested areas explicitly.
+
+The default QA output is transient and is consumed by `tech-lead`.
+Saving a report under `nino-harness/reports` requires an explicit user request.
 
 The QA gate does not authorize production changes. The release gate remains
 responsible for final repository checks and human approval of production

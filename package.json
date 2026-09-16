@@ -6,9 +6,11 @@
     "harness:guard": "node hooks/harness-guard.mjs",
     "harness:registry": "node hooks/registry-guard.mjs",
     "harness:references": "node hooks/reference-guard.mjs",
+    "harness:language": "node hooks/language-guard.mjs",
     "harness:profiles": "node hooks/profile-guard.mjs",
     "harness:contracts": "node hooks/contract-guard.mjs",
     "harness:secrets": "node hooks/secret-guard.mjs",
+    "harness:test": "node --test hooks/__tests__/*.test.mjs",
     "harness:feedback:guard": "node hooks/feedback-guard.mjs"
   }
 }

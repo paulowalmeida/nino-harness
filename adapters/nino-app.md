@@ -1,22 +1,22 @@
 # Adapter: nino-app
 
-## Repositório
+## Repository
 
 `../nino-app`
 
-## Instruções obrigatórias
+## Required instructions
 
 - `../nino-app/.agents/rules/`;
-- skills especializadas em `../nino-app/.agents/skills/`;
-- enforcement em `../nino-app/.agents/enforcement/`;
-- `npm run quality:gate` para fechamento de implementação.
+- specialized skills in `../nino-app/.agents/skills/`;
+- enforcement in `../nino-app/.agents/enforcement/`;
+- `npm run quality:gate` to close implementation.
 
-## Escopos principais
+## Main scopes
 
-- Pages, componentes, facades, Hooks e estado;
-- Design System e acessibilidade;
-- Services, adapters e tipos compartilhados;
-- testes Vitest e gates de feature.
+- Pages, components, facades, Hooks, and state;
+- Design System and accessibility;
+- Services, adapters, and shared types;
+- Vitest tests and feature gates.
 
-O harness central não substitui as regras de Page, facade, Design System ou
-estado do frontend.
+The central harness does not replace Page, facade, Design System, or frontend
+state rules.

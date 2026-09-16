@@ -114,6 +114,9 @@ untested.
 - use isolated, authorized test data;
 - do not change source code, tests or configuration to hide a failure;
 - do not fix the implementation; return a reproducible defect to its owner;
+- do not create or update an execution report under `nino-harness/reports`;
+- return a transient `qa-handoff` directly to `tech-lead`; never choose
+  or invoke the implementation agent yourself;
 - do not mutate production without explicit approval;
 - distinguish confirmed defect, risk and environment limitation;
 - record repeated attempts and conditions for intermittent failures;
@@ -161,10 +164,15 @@ run its applicable validation before closing the task.
 
 ## Output
 
-Produce both:
+Produce both in the execution handoff to `tech-lead`:
 
 1. a `surface-inventory` during discovery;
-2. a `qa-report` after execution, using `templates/qa-report.md`.
+2. a `qa-handoff` after execution, with the coverage matrix and every finding
+   routed by probable layer. Include the next-agent recommendation, but leave
+   the final routing decision to `tech-lead`.
+
+Use `templates/qa-report.md` only when the user explicitly requests a saved
+report. It is a writing template, not a default filesystem output.
 
 Return `PASS` only when all applicable acceptance criteria and discovered
 flows have evidence. Return `FAIL` for a reproducible defect, `BLOCKED` when

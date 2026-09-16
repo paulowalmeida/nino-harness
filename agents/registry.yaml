@@ -17,10 +17,21 @@ defaults:
     - INCOMPLETE
 
 agents:
-  - id: nino-orchestrator
+  - id: product-owner
     status: active
-    role: coordinator
-    mission: Decompor solicitações, escolher especialistas e consolidar evidências.
+    role: product-owner
+    mission: Turn user intent into business tasks, acceptance criteria, priorities, and mandatory business regression checks.
+    repositories: [nino-api, nino-app, nino-docs]
+    permissions: [read, inspect, clarify, define-acceptance, review, run-checks]
+    forbidden: [edit-source, technical-routing, change-architecture, deploy]
+    input: user-request
+    outputs: [business-brief, business-regression]
+    workflow: feature-delivery
+
+  - id: tech-lead
+    status: active
+    role: tech-lead
+    mission: Lead technical delivery, choose specialists, and consolidate evidence without owning product decisions.
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, plan, delegate, review]
     forbidden: [edit-source, change-schema, deploy, publish]
@@ -29,9 +40,9 @@ agents:
     workflow: feature-delivery
 
   - id: architecture
-    status: planned
+    status: active
     role: specialist
-    mission: Definir ownership, boundaries, dependências e contratos.
+    mission: Define ownership, boundaries, dependencies, and contracts.
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, propose, review]
     forbidden: [implement-without-approval, deploy]
@@ -40,7 +51,7 @@ agents:
   - id: backend-dev
     status: active
     role: implementer
-    mission: Implementar mudanças no nino-api respeitando suas rules e gates.
+    mission: Implement changes in nino-api while respecting its rules and gates.
     repositories: [nino-api]
     permissions: [read, inspect, edit-source, edit-tests, run-checks]
     forbidden: [change-product-scope, change-contract-without-approval, change-schema-without-approval, commit-without-request, deploy]
@@ -50,7 +61,7 @@ agents:
   - id: frontend-dev
     status: active
     role: implementer
-    mission: Implementar mudanças no nino-app respeitando sua arquitetura de Pages.
+    mission: Implement changes in nino-app while respecting its Pages architecture.
     repositories: [nino-app]
     permissions: [read, inspect, edit-source, edit-tests, run-checks]
     forbidden: [change-api-contract-without-approval, change-product-scope, commit-without-request, deploy]
@@ -60,32 +71,32 @@ agents:
   - id: learning-curator
     status: active
     role: reviewer
-    mission: Classificar feedback e promover aprendizado reutilizável com evidência e aprovação explícita.
+    mission: Classify feedback and promote reusable learning with evidence and explicit approval.
     repositories: [nino-api, nino-app, nino-docs, nino-harness]
     permissions: [read, inspect, propose, review]
     forbidden: [auto-promote, change-product-scope, change-contract-without-approval, deploy]
     output: learning-decision
 
   - id: security
-    status: planned
+    status: active
     role: reviewer
-    mission: Auditar autorização, ownership, exposição de dados e abuso.
+    mission: Audit authorization, ownership, data exposure, and abuse.
     repositories: [nino-api, nino-app]
     permissions: [read, inspect, review, run-checks]
     forbidden: [accept-risk-without-decision, deploy]
     output: security-review
 
   - id: testing
-    status: planned
+    status: active
     role: reviewer
-    mission: Projetar e executar cobertura comportamental e regressões.
+    mission: Design and execute behavioral coverage and regression protection.
     repositories: [nino-api, nino-app]
     permissions: [read, inspect, edit-tests, run-checks]
     forbidden: [weaken-tests, skip-failures]
     output: test-report
 
   - id: qa
-    status: planned
+    status: active
     role: verifier
     mission: Discover the product surface and validate acceptance criteria, real flows, integration and regressions with reproducible evidence.
     repositories: [nino-api, nino-app, nino-docs]
@@ -94,9 +105,9 @@ agents:
     outputs: [surface-inventory, qa-handoff]
 
   - id: ux-ui
-    status: planned
+    status: active
     role: specialist
-    mission: Definir experiência, interação, acessibilidade e uso do Design System.
+    mission: Define experience, interaction, accessibility, and Design System usage.
     repositories: [nino-app]
     permissions: [read, inspect, propose, review]
     forbidden: [change-api-contract, deploy]
@@ -104,18 +115,18 @@ agents:
     output: ux-review
 
   - id: documentation
-    status: planned
+    status: active
     role: implementer
-    mission: Atualizar contratos, operação e documentação técnica.
+    mission: Update contracts, operations, and technical documentation.
     repositories: [nino-docs, nino-api, nino-app]
     permissions: [read, inspect, edit-docs, run-checks]
     forbidden: [change-source-contract, deploy]
     output: documentation-handoff
 
   - id: release
-    status: planned
+    status: active
     role: verifier
-    mission: Executar gates e preparar a entrega sem publicar automaticamente.
+    mission: Run gates and prepare delivery without publishing automatically.
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, run-checks, review]
     forbidden: [skip-gates, deploy-without-approval]

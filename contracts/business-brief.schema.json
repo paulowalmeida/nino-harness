@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino Business Brief",
+  "type": "object",
+  "required": ["id", "taskId", "objective", "users", "priority", "scope", "outOfScope", "acceptanceCriteria", "criticalJourneys", "decisionsRequired", "status"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+    "taskId": { "type": "string", "minLength": 1 },
+    "objective": { "type": "string", "minLength": 1 },
+    "users": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "priority": { "enum": ["low", "medium", "high", "urgent"] },
+    "scope": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "outOfScope": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "acceptanceCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "verification"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "verification": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
+      }
+    },
+    "criticalJourneys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "steps": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "decisionsRequired": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "status": { "enum": ["NEEDS-DECISION", "READY-FOR-TECHNICAL-TRANSLATION", "BLOCKED"] }
+  },
+  "additionalProperties": false
+}

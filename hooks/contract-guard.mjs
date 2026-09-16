@@ -3,10 +3,79 @@ import { readText, printResult } from './utils.mjs'
 const errors = []
 let schema
 
+const requiredSchemas = {
+  'contracts/work-order.schema.json': [
+    'objective',
+    'repositories',
+    'scope',
+    'outOfScope',
+    'verifiedEvidence',
+    'decisionsRequired',
+    'delegationGraph',
+    'requiredGates',
+    'status',
+  ],
+  'contracts/feedback-record.schema.json': [
+    'id',
+    'runId',
+    'createdAt',
+    'source',
+    'classification',
+    'observation',
+    'evidence',
+    'feedForward',
+    'decision',
+    'status',
+  ],
+  'contracts/business-brief.schema.json': [
+    'id',
+    'taskId',
+    'objective',
+    'users',
+    'priority',
+    'scope',
+    'outOfScope',
+    'acceptanceCriteria',
+    'criticalJourneys',
+    'decisionsRequired',
+    'status',
+  ],
+  'contracts/business-regression.schema.json': [
+    'id',
+    'taskId',
+    'runId',
+    'criteria',
+    'journeys',
+    'status',
+  ],
+  'contracts/routing-decision.schema.json': [
+    'id',
+    'taskId',
+    'sourceQaHandoff',
+    'findings',
+    'iteration',
+    'decision',
+    'status',
+  ],
+}
+
 try {
   schema = JSON.parse(await readText('contracts/work-order.schema.json'))
 } catch {
   errors.push('contracts/work-order.schema.json is not valid JSON')
+}
+
+for (const [path, fields] of Object.entries(requiredSchemas)) {
+  if (path === 'contracts/work-order.schema.json' || path === 'contracts/feedback-record.schema.json') continue
+  try {
+    const candidate = JSON.parse(await readText(path))
+    for (const field of fields) {
+      if (!candidate.required?.includes(field)) errors.push(`${path} missing required field: ${field}`)
+    }
+    if (candidate.additionalProperties !== false) errors.push(`${path} must reject additional properties`)
+  } catch {
+    errors.push(`${path} is not valid JSON`)
+  }
 }
 
 if (schema) {

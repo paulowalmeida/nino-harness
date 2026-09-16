@@ -13,7 +13,15 @@ if (agents.length === 0) errors.push('agents section must contain at least one a
 
 const ids = new Set()
 const allowedStatuses = new Set(['planned', 'active'])
-const allowedRoles = new Set(['coordinator', 'specialist', 'implementer', 'reviewer', 'verifier'])
+const allowedRoles = new Set([
+  'coordinator',
+  'product-owner',
+  'tech-lead',
+  'specialist',
+  'implementer',
+  'reviewer',
+  'verifier',
+])
 
 for (const agent of agents) {
   if (ids.has(agent.id)) errors.push(`duplicate agent id: ${agent.id}`)

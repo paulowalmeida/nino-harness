@@ -1,50 +1,96 @@
 # Nino Agent Harness
 
-Este projeto é a camada compartilhada de governança dos agentes do Nino. Ele
-orienta o trabalho entre `nino-api`, `nino-app` e `nino-docs`; as regras
-específicas de cada repositório continuam sendo obrigatórias.
+This project is the shared governance layer for Nino agents. It coordinates
+work across `nino-api`, `nino-app`, and `nino-docs`; repository-specific rules
+remain mandatory.
 
-## Ordem de carregamento
+## Loading order
 
-Antes de atuar, o agente deve:
+Before acting, the agent must:
 
-1. identificar o repositório e o escopo real da tarefa;
-2. ler o adapter correspondente em `adapters/`;
-3. ler o `.agents/AGENTS.md` local, quando existir;
-4. ler as rules e skills aplicáveis do repositório-alvo;
-5. identificar hooks, gates, testes e contratos que a mudança pode afetar;
-6. só então propor ou executar trabalho.
+1. identify the repository and the task's actual scope;
+2. read the corresponding adapter under `adapters/`;
+3. read the local `.agents/AGENTS.md`, when present;
+4. read the rules and skills applicable to the target repository;
+5. identify hooks, gates, tests, and contracts that the change may affect;
+6. only then propose or execute work.
 
-## Regra do orchestrator
+## Harness language rule
 
-O `nino-orchestrator` é read-only por padrão. Ele investiga, planeja,
-classifica dependências e prepara handoffs. Não altera código nem dispara
-implementação sem autorização explícita ou sem um workflow que já tenha sido
-aprovado.
+All harness artifacts must be written in English. This includes agent
+profiles, instructions, adapters, workflows, gates, templates, registries,
+handoff contracts, and any persisted harness output. Do not write Brazilian
+Portuguese in the harness. `harness:language` mechanically checks all
+human-readable harness artifacts and must pass with the other harness gates.
 
-## Contrato de handoff
+## Tech Lead / orchestrator rule
 
-Todo agente delegado deve devolver:
+`tech-lead` is the technical lead for delivery and is read-only by
+default. It investigates, plans, classifies dependencies, routes work, and
+prepares handoffs. It does not decide product priorities or business rules,
+change code, or start implementation without explicit authorization or an
+already approved workflow.
 
-- escopo realmente inspecionado;
-- arquivos alterados ou nenhuma alteração;
-- evidências e comandos executados;
-- decisões tomadas e premissas;
-- riscos, limitações e `NEEDS-EVIDENCE` restantes;
-- próximo agente recomendado, se houver.
+## Product Owner rule
 
-Um gate aprovado não substitui julgamento arquitetural. Um agente não deve
-declarar o repositório inteiro limpo a partir de uma validação parcial.
+The `product-owner` agent owns the business intake: user intent, priority,
+scope, acceptance criteria, and critical business journeys. It hands an
+approved `business-brief` to `tech-lead`, which converts it into the technical
+work order and routes specialized agents.
 
-## Regra de retroalimentação
+The `product-owner` must always perform business regression after the final
+technical QA/correction loop and before release. This validates acceptance
+criteria and critical journeys from the user's perspective; it does not
+replace QA's functional, integration, security, accessibility, or technical
+regression checks. A failed or unverified business regression blocks release
+and returns to `tech-lead`.
 
-Ao final de cada trabalho, o agente deve avaliar se surgiu um aprendizado
-reutilizável, uma falha recorrente ou uma lacuna de enforcement. Quando houver,
-deve retroalimentar o artefato normativo mais estreito que governa o caso —
-perfil do agente, Skill, rule, hook, gate ou template — com a evidência e o
-escopo da mudança. Não basta mencionar o aprendizado na resposta final.
+## Handoff contract
 
-A retroalimentação deve ser específica, testável quando possível e não pode
-transformar uma observação isolada em regra geral sem evidência de recorrência.
-Depois de editar o harness, o agente deve reler o trecho alterado e executar a
-validação aplicável, registrando limitações ou `NEEDS-EVIDENCE` restantes.
+Every delegated agent must return:
+
+- the scope actually inspected;
+- changed files, or an explicit statement that nothing changed;
+- evidence and commands executed;
+- decisions made and assumptions;
+- remaining risks, limitations, and `NEEDS-EVIDENCE` items;
+- the recommended next agent, when applicable.
+
+## QA → orchestrator → correction flow
+
+The `qa` agent does not fix code or create an execution report in the
+repository. It returns a transient `qa-handoff` to `tech-lead` during
+the same execution, containing the inventory, criteria, evidence, findings,
+severity, probable owner, limitations, and `NEEDS-EVIDENCE` items.
+
+`tech-lead` is solely responsible for deciding the next agent:
+
+- `frontend-dev` for UI, client-side state, interaction, or presentation
+  defects;
+- `backend-dev` for API, persistence, contract, authorization, or server-rule
+  defects;
+- both when the defect crosses the frontend/backend boundary, respecting the
+  contract's implementation order;
+- `testing`, `security`, or `architecture` when the finding primarily concerns
+  coverage, security, or ownership/architecture.
+
+After a delegated correction, the orchestrator must request a new QA execution
+before releasing the flow. A saved `qa-report` exists only when the user
+explicitly requests a historical artifact; it is not a default workflow
+output.
+
+An approved gate does not replace architectural judgment. An agent must not
+declare the entire repository clean based on a partial validation.
+
+## Feedback rule
+
+At the end of every task, the tech lead must assess whether a reusable lesson,
+recurring failure, or enforcement gap emerged. When one does, it must feed the
+lesson back into the narrowest normative artifact governing the case — agent
+profile, skill, rule, hook, gate, or template — with the evidence and scope of
+the change. Mentioning the lesson only in the final response is insufficient.
+
+Feedback must be specific, testable when possible, and must not turn an isolated
+observation into a general rule without evidence of recurrence. After editing
+the harness, the agent must reread the changed section and run the applicable
+validation, recording remaining limitations or `NEEDS-EVIDENCE` items.

@@ -1,41 +1,41 @@
 # QA Report
 
 - Work order:
-- Escopo validado:
-- Ambiente:
-- Data:
-- Resultado geral: `PASS` | `FAIL` | `BLOCKED` | `NEEDS-EVIDENCE`
+- Validated scope:
+- Environment:
+- Date:
+- Overall result: `PASS` | `FAIL` | `BLOCKED` | `NEEDS-EVIDENCE`
 
-## Critérios de aceite
+## Acceptance criteria
 
-| ID | Critério | Resultado | Evidência |
+| ID | Criterion | Result | Evidence |
 | --- | --- | --- | --- |
 | AC-01 |  |  |  |
 
-## Regressões verificadas
+## Verified regressions
 
-| Fluxo | Resultado | Evidência |
+| Flow | Result | Evidence |
 | --- | --- | --- |
 |  |  |  |
 
-## Verificação entre camadas
+## Cross-layer verification
 
-| Fluxo | Campo/precondição | Camadas observadas | Resultado | Evidência |
+| Flow | Field/precondition | Observed layers | Result | Evidence |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
-## Ações remotas mutáveis
+## Mutable remote actions
 
-| Ação | Escopo autorizado | Evidência da autorização | Recurso criado | Limpeza ou retenção intencional |
+| Action | Authorized scope | Authorization evidence | Created resource | Cleanup or intentional retention |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
 
-## Achados
+## Findings
 
-| Severidade | Defeito ou risco | Reprodução | Resultado esperado | Resultado atual | Agente |
+| Severity | Defect or risk | Reproduction | Expected result | Actual result | Agent |
 | --- | --- | --- | --- | --- | --- |
 |  |  |  |  |  |  |
 
-## Limitações e pendências
+## Limitations and pending items
 
 -

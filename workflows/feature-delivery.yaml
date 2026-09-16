@@ -1,18 +1,24 @@
 version: 1
 id: feature-delivery
 trigger: manual
-owner: nino-orchestrator
+owner: product-owner
 
 approvalPoints:
   - contract
   - ownership-or-architecture
   - feedback-promotion
+  - business-acceptance
   - production-action
 
 stages:
-  - id: brief
-    agent: nino-orchestrator
+  - id: product-intake
+    agent: product-owner
     dependsOn: []
+    output: business-brief
+
+  - id: brief
+    agent: tech-lead
+    dependsOn: [product-intake]
     output: work-order
 
   - id: architecture
@@ -60,10 +66,17 @@ stages:
     output: qa-handoff
 
   - id: qa-routing
-    agent: nino-orchestrator
+    agent: tech-lead
     dependsOn: [qa]
     output: routing-decision
-    note: If QA reports a defect, route correction to frontend-dev, backend-dev or both, then return to QA before release.
+    loop:
+      start: qa
+      maxIterations: 3
+      onFail: ROUTE-CORRECTION
+      onCorrectionComplete: qa
+      onPass: READY-FOR-BUSINESS-REGRESSION
+      onExhausted: BLOCKED
+    note: If QA reports a defect, route correction to frontend-dev, backend-dev or both, record the iteration evidence, and return to QA. Stop after three failed iterations and escalate as BLOCKED.
 
   - id: retrospective
     agent: learning-curator
@@ -76,9 +89,15 @@ stages:
     output: learning-decision
     approval: feedback-promotion
 
+  - id: business-regression
+    agent: product-owner
+    dependsOn: [security, testing, qa-routing, learning-review]
+    output: business-regression
+    approval: business-acceptance
+
   - id: documentation
     agent: documentation
-    dependsOn: [security, testing, qa-routing, learning-review]
+    dependsOn: [security, testing, qa-routing, learning-review, business-regression]
     output: documentation-handoff
 
   - id: release

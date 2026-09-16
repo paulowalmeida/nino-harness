@@ -1,17 +1,17 @@
 # Change protocol
 
-Estas regras são comuns aos projetos do Nino.
+These rules are shared by Nino projects.
 
-- Antes de editar, identifique escopo, owner, consumidores, contrato público,
-  dependências, testes e gates aplicáveis.
-- Não inferir ownership por nome de pasta, código legado, alias ou semelhança
-  visual; inspecione os consumidores reais.
-- Preservar comportamento e contratos públicos salvo autorização explícita.
-- Se um defeito pode reaparecer mecanicamente, atualizar regra, hook, gate ou
-  teste de regressão junto com a correção.
-- Não enfraquecer ou contornar um checker para fazer a mudança passar.
-- Antes de concluir, revisar o diff final e separar evidência escopada,
-  validação global, limitações e decisões humanas.
-- `NEEDS-EVIDENCE` não pode ser reportado como `PASS`.
-- Código legado explica dívida existente; não autoriza repetir o padrão em
-  código novo ou alterado.
+- Before editing, identify scope, owner, consumers, public contract,
+  dependencies, tests, and applicable gates.
+- Do not infer ownership from a folder name, legacy code, alias, or visual
+  similarity; inspect real consumers.
+- Preserve behavior and public contracts unless explicitly authorized.
+- If a defect can recur mechanically, update the rule, hook, gate, or
+  regression test with the correction.
+- Do not weaken or bypass a checker to make a change pass.
+- Before finishing, review the final diff and separate scoped evidence, global
+  validation, limitations, and human decisions.
+- `NEEDS-EVIDENCE` must not be reported as `PASS`.
+- Legacy code explains existing debt; it does not authorize repeating the
+  pattern in new or changed code.

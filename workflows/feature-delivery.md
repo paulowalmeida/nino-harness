@@ -1,12 +1,12 @@
 # Feature delivery workflow
 
-Workflow padrão para uma feature que atravessa produto, API, aplicação e
-documentação.
+Standard workflow for a feature crossing product, API, application, and
+documentation.
 
 ```text
-Orchestrator
+Product Owner
     ↓
-Requirements / decisions
+Business brief / decisions
     ↓
 Architecture and contracts
     ├── Backend implementation
@@ -21,24 +21,29 @@ Architecture and contracts
 
 ## Fases
 
-1. **Brief:** registrar objetivo, usuário, resultado observável e fora de
-   escopo.
-2. **Evidence:** mapear código atual, consumidores, contratos e limitações.
-3. **Architecture:** definir owner, dependências, estados, integração e
-   compatibilidade.
-4. **Contract:** aprovar payloads, respostas, estados e eventos antes de
-   paralelizar implementações.
-5. **Surface discovery:** QA mapeia rotas, telas, módulos, endpoints, papéis,
-   estados e fluxos relacionados antes da implementação.
-6. **Implementation:** delegar para os repositórios e agentes corretos usando
-   o inventário descoberto.
-7. **Adversarial review:** testar erro, repetição, concorrência, permissão,
-   dados inválidos e recuperação quando aplicável.
-8. **QA:** validar critérios de aceite e fluxos reais, registrando evidências
-   reproduzíveis. Falhas retornam ao agente responsável pela correção.
-9. **Documentation:** atualizar contratos, operação e decisões relevantes.
-10. **Release:** executar gates escopados e globais; separar falhas não
-   relacionadas; revisar o diff final.
+1. **Product intake:** define business objective, users, priority, scope,
+   acceptance criteria, and critical regression journeys.
+2. **Technical brief:** the tech lead converts the business brief into a
+   technical work order.
+3. **Evidence:** map current code, consumers, contracts, and limitations.
+4. **Architecture:** define ownership, dependencies, states, integration, and
+   compatibility.
+5. **Contract:** approve payloads, responses, states, and events before
+   parallelizing implementation.
+6. **Surface discovery:** QA maps routes, screens, modules, endpoints, roles,
+   states, and related flows before implementation.
+7. **Implementation:** delegate to the correct repositories and agents using
+   the discovered inventory.
+8. **Adversarial review:** test errors, repetition, concurrency, permissions,
+   invalid data, and recovery when applicable.
+9. **QA loop:** validate acceptance criteria and real flows with reproducible
+   evidence. Route each failure, limit correction to three iterations, and
+   return to QA after every correction.
+10. **Business regression:** the Product Owner replays every acceptance
+    criterion and critical journey. Failure blocks release.
+11. **Documentation:** update contracts, operations, and relevant decisions.
+12. **Release:** execute scoped and global gates, separate unrelated failures,
+    and review the final diff.
 
-Nenhuma fase pode declarar PASS sem a evidência exigida pelo repositório que
-possui o código.
+No phase may declare PASS without the evidence required by the repository that
+owns the code.

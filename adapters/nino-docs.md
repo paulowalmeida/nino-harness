@@ -1,20 +1,20 @@
 # Adapter: nino-docs
 
-## Repositório
+## Repository
 
 `../nino-docs`
 
-## Instruções obrigatórias
+## Required instructions
 
-O projeto não possui atualmente um `.agents/AGENTS.md` próprio. Use as
-instruções do workspace e valide a documentação com:
+The project currently has no local `.agents/AGENTS.md`. Use workspace
+instructions and validate documentation with:
 
 - `npm run typecheck`;
 - `npm run build`.
 
-## Escopo
+## Scope
 
-- Docusaurus e navegação;
-- documentação técnica e operacional;
-- contratos públicos e decisões arquiteturais;
-- consistência dos nomes com `nino-api` e `nino-app`.
+- Docusaurus and navigation;
+- technical and operational documentation;
+- public contracts and architectural decisions;
+- name consistency with `nino-api` and `nino-app`.
