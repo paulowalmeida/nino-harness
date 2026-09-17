@@ -25,11 +25,23 @@ human-readable harness artifacts and must pass with the other harness gates.
 
 ## Tech Lead / orchestrator rule
 
-`tech-lead` is the technical lead for delivery and is read-only by
-default. It investigates, plans, classifies dependencies, routes work, and
-prepares handoffs. It does not decide product priorities or business rules,
-change code, or start implementation without explicit authorization or an
-already approved workflow.
+`tech-lead` is the technical lead and the sole task allocator for delivery. The
+host agent must invoke `tech-lead` first after the Product Owner's approved
+`business-brief`; it must not impersonate a specialist or distribute work
+directly. `tech-lead` is read-only by default: it investigates, plans,
+classifies dependencies, reviews results, and issues the machine-readable
+`agent-dispatch` contract to the approved specialist agents.
+
+The `tech-lead` must not implement production code, tests, documentation, or
+infrastructure changes. Every specialist action requires a valid dispatch with
+`sourceAgent: tech-lead`, an explicit target, scope, dependencies, acceptance
+criteria, and required output. If the orchestration runtime cannot issue or
+verify that dispatch, the execution is `BLOCKED`; direct implementation is not
+a fallback.
+
+The registry and profiles describe policy but do not launch agents. An
+orchestration runtime must enforce the dispatch boundary and preserve the
+delegation graph throughout the execution.
 
 ## Product Owner rule
 

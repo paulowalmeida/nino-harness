@@ -24,13 +24,31 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["order", "agent", "task", "dependsOn"],
+        "required": [
+          "order",
+          "sourceAgent",
+          "agent",
+          "task",
+          "dependsOn",
+          "dispatchId",
+          "acceptanceCriteria",
+          "requiredOutput"
+        ],
         "properties": {
           "order": { "type": "integer", "minimum": 1 },
+          "sourceAgent": { "const": "tech-lead" },
           "agent": { "type": "string", "minLength": 1 },
           "task": { "type": "string", "minLength": 1 },
-          "dependsOn": { "type": "array", "items": { "type": "integer" } }
-        }
+          "dependsOn": { "type": "array", "items": { "type": "integer" } },
+          "dispatchId": { "type": "string", "minLength": 1 },
+          "acceptanceCriteria": {
+            "type": "array",
+            "minItems": 1,
+            "items": { "type": "string", "minLength": 1 }
+          },
+          "requiredOutput": { "type": "string", "minLength": 1 }
+        },
+        "additionalProperties": false
       }
     },
     "requiredGates": { "type": "array", "items": { "type": "string" } },

@@ -134,5 +134,17 @@
       { "type": "file_contains", "path": "agents/qa.md", "pattern": "browser-level typing smoke" },
       { "type": "workflow_stage_order", "stages": ["qa", "qa-routing", "business-regression", "operations-review", "release"] }
     ]
+  },
+  {
+    "id": "ORCH-001",
+    "title": "Tech Lead is the sole dispatcher",
+    "category": "orchestration",
+    "class": "adversarial",
+    "agent": "tech-lead",
+    "assertions": [
+      { "type": "file_contains", "path": "AGENTS.md", "pattern": "sole task allocator" },
+      { "type": "file_contains", "path": "agents/tech-lead.md", "pattern": "must not implement" },
+      { "type": "file_contains", "path": "contracts/agent-dispatch.schema.json", "pattern": "\"const\": \"tech-lead\"" }
+    ]
   }
 ]

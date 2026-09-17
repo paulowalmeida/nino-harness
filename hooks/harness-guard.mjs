@@ -9,6 +9,7 @@ const hooks = [
   'reference-guard.mjs',
   'profile-guard.mjs',
   'contract-guard.mjs',
+  'orchestration-guard.mjs',
   'secret-guard.mjs',
   'feedback-guard.mjs',
 ]

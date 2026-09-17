@@ -19,7 +19,10 @@ The gate passes only when all hooks pass:
 - `profile-guard`: profiles have valid frontmatter, mission and completion
   instructions;
 - `contract-guard`: work-order, business, security, operations, and workflow
-  contracts preserve their required structure;
+  contracts preserve their required structure, including the agent-dispatch
+  contract;
+- `orchestration-guard`: the Tech Lead is the sole allocator and specialist
+  stages cannot be implemented by the coordinator;
 - `secret-guard`: no supported credential pattern is present in tracked files.
 - `feedback-guard`: retained learning is approved, evidenced and structurally
   valid; ephemeral feedback is not allowed in the versioned repository.
@@ -29,4 +32,5 @@ hooks and gates in `nino-api`, `nino-app` or `nino-docs`.
 
 CI also runs `npm run evals:run` and uploads the structured result as an
 artifact. The evaluation suite measures deterministic harness enforcement; it
-does not claim to measure real-agent behavior until that execution path exists.
+does not claim to measure external runtime invocation. A runtime that cannot
+produce and verify the required dispatch must stop the execution as `BLOCKED`.

@@ -34,9 +34,13 @@ provides the technical implementation.
   `release`: active specialist profiles.
 
 The structured workflow is in `workflows/feature-delivery.yaml`. The
-`agents/registry.yaml` file is a capability and permission catalog; it does not
-launch agents by itself. An orchestration runtime may be added later when the
-contracts are exercised by a real feature.
+`agents/registry.yaml` file is a capability and permission catalog. The
+workflow requires `tech-lead` to be the sole dispatcher and every specialist
+execution to carry a validated `agent-dispatch` contract. Profiles and the
+registry do not launch agents by themselves: the orchestration runtime must
+enforce this boundary, and execution is `BLOCKED` when that runtime is
+unavailable. Static harness checks validate the policy and contract shape; they
+do not pretend to prove that an external runtime invoked an LLM.
 
 ## Harness gate
 

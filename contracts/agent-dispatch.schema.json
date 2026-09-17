@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino Agent Dispatch",
+  "type": "object",
+  "required": [
+    "id",
+    "taskId",
+    "sourceAgent",
+    "targetAgent",
+    "workOrder",
+    "scope",
+    "dependsOn",
+    "acceptanceCriteria",
+    "requiredOutput",
+    "status"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "taskId": { "type": "string", "minLength": 1 },
+    "sourceAgent": { "const": "tech-lead" },
+    "targetAgent": {
+      "type": "string",
+      "minLength": 1,
+      "not": { "const": "tech-lead" }
+    },
+    "workOrder": { "type": "string", "minLength": 1 },
+    "scope": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "dependsOn": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "acceptanceCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "requiredOutput": { "type": "string", "minLength": 1 },
+    "status": {
+      "enum": ["READY", "IN-PROGRESS", "BLOCKED", "DONE"]
+    }
+  },
+  "additionalProperties": false
+}

@@ -3,6 +3,13 @@ id: feature-delivery
 trigger: manual
 owner: product-owner
 
+orchestration:
+  dispatcher: tech-lead
+  executionMode: delegated-only
+  requiredDispatchContract: contracts/agent-dispatch.schema.json
+  onDispatcherUnavailable: BLOCKED
+  implementationAuthority: specialist-dispatch-only
+
 approvalPoints:
   - contract
   - ownership-or-architecture
@@ -24,56 +31,66 @@ stages:
   - id: architecture
     agent: architecture
     dependsOn: [brief]
+    dispatch: required
     output: architecture-decision
     approval: ownership-or-architecture
 
   - id: contract
     agent: architecture
     dependsOn: [architecture]
+    dispatch: required
     output: approved-contract
     approval: contract
 
   - id: environment-readiness
     agent: sre-platform
     dependsOn: [contract]
+    dispatch: required
     output: environment-plan
 
   - id: surface-discovery
     agent: qa
     dependsOn: [brief, contract]
+    dispatch: required
     output: surface-inventory
 
   - id: backend
     agent: backend-dev
     dependsOn: [contract, surface-discovery, environment-readiness]
+    dispatch: required
     parallelGroup: implementation
     output: implementation-handoff
 
   - id: frontend
     agent: frontend-dev
     dependsOn: [contract, environment-readiness]
+    dispatch: required
     parallelGroup: implementation
     output: implementation-handoff
 
   - id: ux-review
     agent: ux-ui
     dependsOn: [frontend]
+    dispatch: required
     output: ux-review
     optionalWhen: non-user-facing-change
 
   - id: security
     agent: security
     dependsOn: [backend, frontend, ux-review]
+    dispatch: required
     output: security-review
 
   - id: testing
     agent: testing
     dependsOn: [backend, frontend, ux-review]
+    dispatch: required
     output: test-report
 
   - id: qa
     agent: qa
     dependsOn: [backend, frontend, surface-discovery, ux-review]
+    dispatch: required
     output: qa-handoff
 
   - id: qa-routing
@@ -92,32 +109,38 @@ stages:
   - id: retrospective
     agent: learning-curator
     dependsOn: [security, testing, qa-routing]
+    dispatch: required
     output: feedback-record
 
   - id: learning-review
     agent: learning-curator
     dependsOn: [retrospective]
+    dispatch: required
     output: learning-decision
     approval: feedback-promotion
 
   - id: business-regression
     agent: product-owner
     dependsOn: [security, testing, qa-routing, learning-review]
+    dispatch: required
     output: business-regression
     approval: business-acceptance
 
   - id: operations-review
     agent: sre-platform
     dependsOn: [security, testing, qa-routing, learning-review, business-regression]
+    dispatch: required
     output: operations-review
 
   - id: documentation
     agent: documentation
     dependsOn: [security, testing, qa-routing, learning-review, business-regression, operations-review]
+    dispatch: required
     output: documentation-handoff
 
   - id: release
     agent: release
     dependsOn: [documentation]
+    dispatch: required
     output: release-report
     approval: production-action

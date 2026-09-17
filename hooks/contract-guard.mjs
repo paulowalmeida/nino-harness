@@ -80,6 +80,18 @@ const requiredSchemas = {
     'rollbackReady',
     'status',
   ],
+  'contracts/agent-dispatch.schema.json': [
+    'id',
+    'taskId',
+    'sourceAgent',
+    'targetAgent',
+    'workOrder',
+    'scope',
+    'dependsOn',
+    'acceptanceCriteria',
+    'requiredOutput',
+    'status',
+  ],
 }
 
 try {
@@ -123,6 +135,42 @@ if (schema) {
 
   const allowedStatuses = schema.properties?.status?.enum ?? []
   if (allowedStatuses.length !== 4) errors.push('work-order schema must define all four work-order statuses')
+
+  const delegationItem = schema.properties?.delegationGraph?.items
+  for (const field of [
+    'order',
+    'sourceAgent',
+    'agent',
+    'task',
+    'dependsOn',
+    'dispatchId',
+    'acceptanceCriteria',
+    'requiredOutput',
+  ]) {
+    if (!delegationItem?.required?.includes(field)) errors.push(`work-order delegation item missing required field: ${field}`)
+  }
+  if (delegationItem?.properties?.sourceAgent?.const !== 'tech-lead') {
+    errors.push('work-order delegation sourceAgent must be tech-lead')
+  }
+  if (delegationItem?.additionalProperties !== false) {
+    errors.push('work-order delegation items must reject additional properties')
+  }
+}
+
+let dispatchSchema
+try {
+  dispatchSchema = JSON.parse(await readText('contracts/agent-dispatch.schema.json'))
+} catch {
+  errors.push('contracts/agent-dispatch.schema.json is not valid JSON')
+}
+
+if (dispatchSchema) {
+  if (dispatchSchema.properties?.sourceAgent?.const !== 'tech-lead') {
+    errors.push('agent-dispatch schema sourceAgent must be tech-lead')
+  }
+  if (dispatchSchema.properties?.targetAgent?.not?.const !== 'tech-lead') {
+    errors.push('agent-dispatch schema targetAgent must reject tech-lead')
+  }
 }
 
 let feedbackSchema
