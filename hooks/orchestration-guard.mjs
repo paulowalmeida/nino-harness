@@ -55,12 +55,18 @@ try {
 
   const techLead = byId.get('tech-lead')
   if (!techLead?.permissions?.includes('delegate')) errors.push('tech-lead must have delegate permission')
+  if (!techLead?.permissions?.includes('create-specialists')) errors.push('tech-lead must have create-specialists permission')
   if (!techLead?.forbidden?.includes('edit-source')) errors.push('tech-lead must forbid edit-source')
+  if (byId.get('product-owner')?.creationScope !== 'tech-lead-only') errors.push('product-owner creation scope must be tech-lead-only')
+  if (techLead?.creationScope !== 'specialist-only') errors.push('tech-lead creation scope must be specialist-only')
 
   const workflow = await readText('workflows/feature-delivery.yaml')
   for (const requirement of [
     /^orchestration:\s*$/m,
     /^  dispatcher:\s*tech-lead\s*$/m,
+    /^  bootstrapAgent:\s*tech-lead\s*$/m,
+    /^  productOwnerMayCreate:\s*\[tech-lead\]\s*$/m,
+    /^  specialistCreationOwner:\s*tech-lead\s*$/m,
     /^  executionMode:\s*delegated-only\s*$/m,
     /^  requiredDispatchContract:\s*contracts\/agent-dispatch\.schema\.json\s*$/m,
     /^  onDispatcherUnavailable:\s*BLOCKED\s*$/m,

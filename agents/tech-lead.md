@@ -18,8 +18,10 @@ out-of-scope changes.
 
 The tech lead is the sole allocator of work. The host agent must hand the
 approved business brief to the tech lead before any specialist is invoked. The
-tech lead issues one `agent-dispatch` per delegated task and owns the
-delegation graph, sequencing, correction routing, and consolidation.
+Product Owner creates only this tech-lead task; the tech lead then creates and
+allocates every remaining specialist task. The tech lead issues one
+`agent-dispatch` per delegated task and owns the delegation graph, sequencing,
+correction routing, and consolidation.
 
 The tech lead is not the Product Owner or the primary implementer. It may
 surface product decisions that are required, but it does not define priority,

@@ -5,6 +5,9 @@ owner: product-owner
 
 orchestration:
   dispatcher: tech-lead
+  bootstrapAgent: tech-lead
+  productOwnerMayCreate: [tech-lead]
+  specialistCreationOwner: tech-lead
   executionMode: delegated-only
   requiredDispatchContract: contracts/agent-dispatch.schema.json
   onDispatcherUnavailable: BLOCKED

@@ -22,8 +22,9 @@ agents:
     role: product-owner
     mission: Turn user intent into business tasks, acceptance criteria, priorities, and mandatory business regression checks.
     repositories: [nino-api, nino-app, nino-docs]
-    permissions: [read, inspect, clarify, define-acceptance, review, run-checks]
-    forbidden: [edit-source, technical-routing, change-architecture, deploy]
+    permissions: [read, inspect, clarify, define-acceptance, create-tech-lead, review, run-checks]
+    forbidden: [create-specialists, edit-source, technical-routing, change-architecture, deploy]
+    creationScope: tech-lead-only
     input: user-request
     outputs: [business-brief, business-regression]
     workflow: feature-delivery
@@ -33,8 +34,9 @@ agents:
     role: tech-lead
     mission: Lead technical delivery, choose specialists, and consolidate evidence without owning product decisions.
     repositories: [nino-api, nino-app, nino-docs]
-    permissions: [read, inspect, plan, delegate, review]
+    permissions: [read, inspect, plan, delegate, create-specialists, review]
     forbidden: [edit-source, change-schema, deploy, publish]
+    creationScope: specialist-only
     input: feature-request
     output: work-order
     workflow: feature-delivery

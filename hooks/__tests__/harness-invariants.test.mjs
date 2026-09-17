@@ -15,6 +15,8 @@ test('language guard detects Brazilian Portuguese and accepts English', () => {
 test('product owner owns intake and mandatory business regression', async () => {
   const profile = await read('agents/product-owner.md')
   assert.match(profile, /business-brief/)
+  assert.match(profile, /creates only the `tech-lead` task/i)
+  assert.match(profile, /must not create, invoke, or dispatch/i)
   assert.match(profile, /must always perform business regression/)
   assert.match(profile, /edit source code/i)
 })
@@ -40,6 +42,8 @@ test('agent dispatch is issued by tech lead to a specialist', async () => {
 test('workflow enforces PO intake, controlled QA loop, and business regression', async () => {
   const workflow = await read('workflows/feature-delivery.yaml')
   assert.match(workflow, /dispatcher: tech-lead/)
+  assert.match(workflow, /productOwnerMayCreate: \[tech-lead\]/)
+  assert.match(workflow, /specialistCreationOwner: tech-lead/)
   assert.match(workflow, /executionMode: delegated-only/)
   assert.match(workflow, /onDispatcherUnavailable: BLOCKED/)
   assert.ok(workflow.indexOf('id: product-intake') < workflow.indexOf('id: brief'))

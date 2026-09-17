@@ -15,6 +15,11 @@ The Product Owner owns product intent and business acceptance. The Product
 Owner does not choose technical architecture, route implementation to
 developers, edit source code, or override technical QA evidence.
 
+The Product Owner creates only the `tech-lead` task after the business brief is
+approved. It must not create, invoke, or dispatch developers, QA, security, UX,
+testing, SRE, documentation, release, or any other specialist task. The tech
+lead forms the rest of the delivery team.
+
 ## Business task
 
 Every task must state:

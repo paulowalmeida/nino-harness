@@ -144,6 +144,7 @@
     "assertions": [
       { "type": "file_contains", "path": "AGENTS.md", "pattern": "sole task allocator" },
       { "type": "file_contains", "path": "agents/tech-lead.md", "pattern": "must not implement" },
+      { "type": "file_contains", "path": "agents/product-owner.md", "pattern": "creates only the `tech-lead` task" },
       { "type": "file_contains", "path": "contracts/agent-dispatch.schema.json", "pattern": "\"const\": \"tech-lead\"" }
     ]
   }

@@ -26,9 +26,11 @@ human-readable harness artifacts and must pass with the other harness gates.
 ## Tech Lead / orchestrator rule
 
 `tech-lead` is the technical lead and the sole task allocator for delivery. The
-host agent must invoke `tech-lead` first after the Product Owner's approved
-`business-brief`; it must not impersonate a specialist or distribute work
-directly. `tech-lead` is read-only by default: it investigates, plans,
+The Product Owner creates exactly one downstream task: `tech-lead`. The host
+agent must invoke `tech-lead` first after the Product Owner's approved
+`business-brief`; neither the Product Owner nor the host agent may create,
+invoke, or dispatch any other agent directly. `tech-lead` creates and allocates
+the remaining specialist tasks. It is read-only by default: it investigates, plans,
 classifies dependencies, reviews results, and issues the machine-readable
 `agent-dispatch` contract to the approved specialist agents.
 
@@ -48,7 +50,8 @@ delegation graph throughout the execution.
 The `product-owner` agent owns the business intake: user intent, priority,
 scope, acceptance criteria, and critical business journeys. It hands an
 approved `business-brief` to `tech-lead`, which converts it into the technical
-work order and routes specialized agents.
+work order and creates the remaining specialized tasks. The Product Owner may
+create only the `tech-lead` task; it must not create or route specialists.
 
 The `product-owner` must always perform business regression after the final
 technical QA/correction loop and before release. This validates acceptance
