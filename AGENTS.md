@@ -4,12 +4,31 @@ This project is the shared governance layer for Nino agents. It coordinates
 work across `nino-api`, `nino-app`, and `nino-docs`; repository-specific rules
 remain mandatory.
 
+## Default execution mode and precedence
+
+Use [session-native](workflows/session-native.md) by default in an active
+Codex or Claude Code session. Read that workflow before applying profiles or
+base rules. The active session is the tech-lead; a clear user request supplies
+inline intake. Spawn only necessary specialists using native session tools.
+
+For native execution, that workflow takes precedence over conflicting
+orchestration, Product Owner, preflight, capability, and mandatory delegation
+requirements below, in profiles, base rules, gates, and the registry. In
+particular, no separate Product Owner or tech-lead invocation, shell preflight,
+CLI state, extra CLI, login, or CODEX_HOME setup is required. Explicit user
+instructions govern scope and authorized direct work. Technical QA,
+repository checks, evidence, and consequential-action approvals still apply.
+
+The strict bootstrap and runtime enforcement rules below describe the optional
+`workflows/feature-delivery.yaml` CLI mode, selected only when explicitly
+requested. They do not block native discovery, review, or authorized edits.
+
 ## Loading order
 
 Before acting, the agent must:
 
 1. identify the repository and the task's actual scope;
-2. read the corresponding adapter under `adapters/`;
+2. read the corresponding adapter under `adapters/`, when one exists;
 3. read the local `.agents/AGENTS.md`, when present;
 4. read the rules and skills applicable to the target repository;
 5. identify hooks, gates, tests, and contracts that the change may affect;
@@ -26,8 +45,8 @@ human-readable harness artifacts and must pass with the other harness gates.
 ## Tech Lead / orchestrator rule
 
 `tech-lead` is the technical lead and the sole task allocator for delivery. The
-The Product Owner creates exactly one downstream task: `tech-lead`. The host
-agent must invoke `tech-lead` first after the Product Owner's approved
+Product Owner invokes exactly one downstream agent: `tech-lead`. The host agent
+must invoke `tech-lead` first after the Product Owner's approved
 `business-brief`; neither the Product Owner nor the host agent may create,
 invoke, or dispatch any other agent directly. `tech-lead` creates and allocates
 the remaining specialist tasks. It is read-only by default: it investigates, plans,
@@ -45,13 +64,22 @@ The registry and profiles describe policy but do not launch agents. An
 orchestration runtime must enforce the dispatch boundary and preserve the
 delegation graph throughout the execution.
 
+## Orchestration preflight rule
+
+Before any technical read, check, browser inspection, gate, implementation,
+test, or deployment, the runtime must execute
+`hooks/orchestration-preflight.mjs`. The Product Owner and the host agent must not read target-repository source or perform technical inspection. The
+preflight requires an approved `business-brief`, exactly one Product Owner to
+Tech Lead handoff, and a valid specialist dispatch. Missing or unverifiable
+state is `BLOCKED`; direct host implementation is never a fallback.
+
 ## Product Owner rule
 
 The `product-owner` agent owns the business intake: user intent, priority,
 scope, acceptance criteria, and critical business journeys. It hands an
 approved `business-brief` to `tech-lead`, which converts it into the technical
 work order and creates the remaining specialized tasks. The Product Owner may
-create only the `tech-lead` task; it must not create or route specialists.
+invoke only the `tech-lead` agent; it must not create or route specialists.
 
 The `product-owner` must always perform business regression after the final
 technical QA/correction loop and before release. This validates acceptance

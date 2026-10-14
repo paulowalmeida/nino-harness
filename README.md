@@ -30,10 +30,28 @@ provides the technical implementation.
   with evidence;
 - `sre-platform`: environment readiness, Vercel delivery, observability, and
   rollback planning;
-- `architecture`, `testing`, `security`, `ux-ui`, `documentation`, and
-  `release`: active specialist profiles.
+- `ux-ui`: defines implementation-ready Nino experiences before frontend work
+  and verifies them after implementation;
+- `architecture`, `testing`, `security`, `documentation`, and `release`:
+  active specialist profiles.
 
-The structured workflow is in `workflows/feature-delivery.yaml`. The
+## Default: native session
+
+Start with [AGENTS.md](AGENTS.md) ([CLAUDE.md](CLAUDE.md) for Claude Code) and
+[session-native](workflows/session-native.md). The current session is the
+tech-lead: capture clear requests inline, discover native tools, and spawn only
+needed specialists. No additional CLI, login, CODEX_HOME setup, separate PO,
+or shell orchestration preflight is required. Native workflow precedence
+overrides conflicting CLI-mode profile and base rules while preserving QA,
+required repository checks, and consequential-action approvals.
+
+Record real native IDs, wait for completion, and review delegated results.
+Report unavailable capabilities honestly; app tasks are not native subagents.
+Deterministic checks validate governance, not actual native invocation.
+
+## Optional: CLI feature delivery
+
+The opt-in structured CLI workflow is in `workflows/feature-delivery.yaml`. The
 `agents/registry.yaml` file is a capability and permission catalog. The
 workflow requires `tech-lead` to be the sole dispatcher and every specialist
 execution to carry a validated `agent-dispatch` contract. Profiles and the
@@ -41,6 +59,12 @@ registry do not launch agents by themselves: the orchestration runtime must
 enforce this boundary, and execution is `BLOCKED` when that runtime is
 unavailable. Static harness checks validate the policy and contract shape; they
 do not pretend to prove that an external runtime invoked an LLM.
+
+The executable runtime is in `runtime/`. Use `npm run harness:plan` to inspect
+the resolved workflow, or `npm run harness:run` to execute it locally through
+the Claude Code CLI (`claude -p`) or the Codex CLI (`codex exec`, via
+`--runner codex`) and persist resumable checkpoints. Both depend only on an
+already-authenticated local CLI login -- no vendor SDK or API key.
 
 ## Harness gate
 

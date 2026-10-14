@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino agent capability check",
+  "type": "object",
+  "required": ["agentId", "role", "action", "skill", "repository"],
+  "properties": {
+    "agentId": { "type": "string", "minLength": 1 },
+    "role": { "type": "string", "minLength": 1 },
+    "action": { "type": "string", "minLength": 1 },
+    "skill": { "type": "string", "minLength": 1 },
+    "repository": { "type": "string", "minLength": 1 }
+  },
+  "additionalProperties": false
+}

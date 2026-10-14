@@ -1,0 +1,6 @@
+{
+  "taskId": "example-task",
+  "objective": "Describe the requested product change",
+  "repositories": ["nino-app"],
+  "scope": ["nino-app"]
+}

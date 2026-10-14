@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nino orchestration preflight state",
+  "type": "object",
+  "required": ["runId", "businessBrief", "techLeadInvocation"],
+  "properties": {
+    "runId": { "type": "string", "minLength": 1 },
+    "businessBrief": {
+      "type": "object",
+      "required": ["id", "status"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "status": { "const": "APPROVED" }
+      },
+      "additionalProperties": true
+    },
+    "techLeadInvocation": {
+      "type": "object",
+      "required": ["id", "invokedBy", "targetAgent", "status"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "invokedBy": { "const": "product-owner" },
+        "targetAgent": { "const": "tech-lead" },
+        "status": { "enum": ["INVOKED", "READY", "IN-PROGRESS"] }
+      },
+      "additionalProperties": true
+    },
+    "dispatch": {
+      "type": "object",
+      "required": [
+        "id",
+        "taskId",
+        "sourceAgent",
+        "targetAgent",
+        "scope",
+        "acceptanceCriteria",
+        "requiredOutput",
+        "status"
+      ],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "taskId": { "type": "string", "minLength": 1 },
+        "sourceAgent": { "const": "tech-lead" },
+        "targetAgent": {
+          "type": "string",
+          "minLength": 1,
+          "not": { "const": "tech-lead" }
+        },
+        "scope": { "type": "array", "minItems": 1 },
+        "acceptanceCriteria": { "type": "array", "minItems": 1 },
+        "requiredOutput": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["READY", "IN-PROGRESS", "DONE"] }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

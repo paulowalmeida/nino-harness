@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nino.delivery/contracts/ux-design.schema.json",
+  "title": "UX Design",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "taskId",
+    "scope",
+    "surfaces",
+    "experience",
+    "visualDirection",
+    "responsive",
+    "accessibility",
+    "internationalization",
+    "designSystem",
+    "implementationHandoff",
+    "openDecisions",
+    "status"
+  ],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "taskId": { "type": "string", "minLength": 1 },
+    "scope": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "surfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "route", "userGoal", "primaryAction"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "route": { "type": ["string", "null"] },
+          "userGoal": { "type": "string", "minLength": 1 },
+          "primaryAction": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "experience": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["journeys", "informationHierarchy", "states"],
+      "properties": {
+        "journeys": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "informationHierarchy": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state", "behavior"],
+            "properties": {
+              "state": { "type": "string", "minLength": 1 },
+              "behavior": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "visualDirection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rationale", "hierarchy", "typography", "color", "motion", "signatureElement"],
+      "properties": {
+        "rationale": { "type": "string", "minLength": 1 },
+        "hierarchy": { "type": "string", "minLength": 1 },
+        "typography": { "type": "string", "minLength": 1 },
+        "color": { "type": "string", "minLength": 1 },
+        "motion": { "type": "string", "minLength": 1 },
+        "signatureElement": { "type": "string", "minLength": 1 }
+      }
+    },
+    "responsive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "breakpoints", "touchAndOverflow"],
+      "properties": {
+        "strategy": { "type": "string", "minLength": 1 },
+        "breakpoints": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "touchAndOverflow": { "type": "string", "minLength": 1 }
+      }
+    },
+    "accessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["target", "semantics", "keyboard", "focus", "announcements", "contrastAndTargets", "motion"],
+      "properties": {
+        "target": { "const": "WCAG-2.2-AA" },
+        "semantics": { "type": "string", "minLength": 1 },
+        "keyboard": { "type": "string", "minLength": 1 },
+        "focus": { "type": "string", "minLength": 1 },
+        "announcements": { "type": "string", "minLength": 1 },
+        "contrastAndTargets": { "type": "string", "minLength": 1 },
+        "motion": { "type": "string", "minLength": 1 }
+      }
+    },
+    "internationalization": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currentLocale", "translation", "textExpansion", "formatting", "pluralization", "directionality"],
+      "properties": {
+        "currentLocale": { "type": "string", "minLength": 1 },
+        "translation": { "type": "string", "minLength": 1 },
+        "textExpansion": { "type": "string", "minLength": 1 },
+        "formatting": { "type": "string", "minLength": 1 },
+        "pluralization": { "type": "string", "minLength": 1 },
+        "directionality": { "type": "string", "minLength": 1 }
+      }
+    },
+    "designSystem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidates", "localGaps"],
+      "properties": {
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["responsibility", "candidate", "inspected", "decision", "reason"],
+            "properties": {
+              "responsibility": { "type": "string", "minLength": 1 },
+              "candidate": { "type": "string", "minLength": 1 },
+              "inspected": { "type": "boolean" },
+              "decision": { "enum": ["REUSE", "COMPOSE", "REJECT", "LOCAL"] },
+              "reason": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "localGaps": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "implementationHandoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["acceptanceCriteria", "visualQA", "outOfScope"],
+      "properties": {
+        "acceptanceCriteria": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "visualQA": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+        "outOfScope": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "openDecisions": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "status": {
+      "enum": ["READY-FOR-IMPLEMENTATION", "NEEDS-DECISION", "NEEDS-EVIDENCE", "BLOCKED", "NOT-APPLICABLE"]
+    }
+  }
+}

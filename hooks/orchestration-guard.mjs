@@ -9,6 +9,7 @@ const requiredAgents = [
   'backend-dev',
   'testing',
   'security',
+  'ux-ui',
   'release',
 ]
 const delegatedStages = [
@@ -16,6 +17,7 @@ const delegatedStages = [
   'contract',
   'environment-readiness',
   'surface-discovery',
+  'ux-design',
   'backend',
   'frontend',
   'ux-review',
@@ -57,7 +59,7 @@ try {
   if (!techLead?.permissions?.includes('delegate')) errors.push('tech-lead must have delegate permission')
   if (!techLead?.permissions?.includes('create-specialists')) errors.push('tech-lead must have create-specialists permission')
   if (!techLead?.forbidden?.includes('edit-source')) errors.push('tech-lead must forbid edit-source')
-  if (byId.get('product-owner')?.creationScope !== 'tech-lead-only') errors.push('product-owner creation scope must be tech-lead-only')
+  if (byId.get('product-owner')?.invocationScope !== 'tech-lead-only') errors.push('product-owner invocation scope must be tech-lead-only')
   if (techLead?.creationScope !== 'specialist-only') errors.push('tech-lead creation scope must be specialist-only')
 
   const workflow = await readText('workflows/feature-delivery.yaml')
@@ -65,10 +67,14 @@ try {
     /^orchestration:\s*$/m,
     /^  dispatcher:\s*tech-lead\s*$/m,
     /^  bootstrapAgent:\s*tech-lead\s*$/m,
-    /^  productOwnerMayCreate:\s*\[tech-lead\]\s*$/m,
+    /^  productOwnerMayInvoke:\s*\[tech-lead\]\s*$/m,
     /^  specialistCreationOwner:\s*tech-lead\s*$/m,
     /^  executionMode:\s*delegated-only\s*$/m,
     /^  requiredDispatchContract:\s*contracts\/agent-dispatch\.schema\.json\s*$/m,
+    /^  preflightHook:\s*hooks\/orchestration-preflight\.mjs\s*$/m,
+    /^  requiredCapabilityHook:\s*hooks\/capability-guard\.mjs\s*$/m,
+    /^  requiredBusinessBriefStatus:\s*APPROVED\s*$/m,
+    /^  hostTechnicalActions:\s*BLOCKED\s*$/m,
     /^  onDispatcherUnavailable:\s*BLOCKED\s*$/m,
     /^  implementationAuthority:\s*specialist-dispatch-only\s*$/m,
   ]) {
@@ -77,6 +83,17 @@ try {
 
   if (workflow.indexOf('id: product-intake') > workflow.indexOf('id: brief')) {
     errors.push('product-owner intake must precede the tech-lead brief')
+  }
+
+  if (workflow.indexOf('id: orchestration-preflight') < 0) {
+    errors.push('workflow must include orchestration-preflight stage')
+  }
+
+  if (
+    workflow.indexOf('id: product-intake') >= workflow.indexOf('id: orchestration-preflight') ||
+    workflow.indexOf('id: orchestration-preflight') >= workflow.indexOf('id: brief')
+  ) {
+    errors.push('orchestration-preflight must run after product-intake and before brief')
   }
 
   for (const stageId of delegatedStages) {
@@ -97,6 +114,19 @@ try {
   const releasePosition = workflow.indexOf('id: release')
   if (!(qaPosition < routingPosition && routingPosition < regressionPosition && regressionPosition < releasePosition)) {
     errors.push('workflow must route QA findings before business regression and release')
+  }
+
+  const discoveryPosition = workflow.indexOf('id: surface-discovery')
+  const uxDesignPosition = workflow.indexOf('id: ux-design')
+  const frontendPosition = workflow.indexOf('id: frontend')
+  const uxReviewPosition = workflow.indexOf('id: ux-review')
+  if (!(discoveryPosition < uxDesignPosition && uxDesignPosition < frontendPosition && frontendPosition < uxReviewPosition && uxReviewPosition < qaPosition)) {
+    errors.push('workflow must define UX before frontend implementation and review UX before QA')
+  }
+
+  const frontendBlock = stageBlock(workflow, 'frontend') ?? ''
+  if (!/^    dependsOn: \[[^\]]*ux-design[^\]]*\]\s*$/m.test(frontendBlock)) {
+    errors.push('frontend stage must depend on ux-design')
   }
 
   const dispatchSchema = JSON.parse(await readText('contracts/agent-dispatch.schema.json'))

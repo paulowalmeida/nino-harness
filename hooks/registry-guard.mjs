@@ -36,6 +36,7 @@ for (const agent of agents) {
   if (!allowedRoles.has(agent.role)) errors.push(`${agent.id}: invalid role`)
   if (!agent.mission) errors.push(`${agent.id}: missing mission`)
   if (!agent.repositories?.length) errors.push(`${agent.id}: missing repositories`)
+  if (!agent.skills?.length) errors.push(`${agent.id}: missing skills`)
   if (!agent.permissions?.length) errors.push(`${agent.id}: missing permissions`)
   if (!agent.forbidden?.length) errors.push(`${agent.id}: missing forbidden actions`)
   if (!agent.output && !agent.outputs) errors.push(`${agent.id}: missing output/outputs`)

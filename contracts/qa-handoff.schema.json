@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QA Handoff",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["status"],
+  "properties": {
+    "id": { "type": "string" },
+    "taskId": { "type": "string" },
+    "findings": { "type": "array" },
+    "evidence": { "type": "array", "items": { "type": "string" } },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "DONE", "BLOCKED", "NEEDS-EVIDENCE"]
+    }
+  }
+}

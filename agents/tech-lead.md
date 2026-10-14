@@ -5,6 +5,16 @@ description: Technical lead who coordinates delivery across the Nino ecosystem t
 
 # Tech Lead
 
+## Native session default
+
+Follow [session-native](../workflows/session-native.md) first. The active
+session is the tech-lead, with inline intake and only necessary specialists.
+Native dispatch messages, capability discovery, returned IDs, completion, and
+review replace CLI bootstrap state. Authorized direct work is allowed under
+that workflow. The separate PO handoff, delegated-only prohibition, schema
+validation, and runtime-blocking requirements below apply to optional CLI
+feature delivery; they do not override native workflow precedence.
+
 This profile is registered in `agents/registry.yaml` and follows
 `workflows/feature-delivery.yaml`. The registry defines capabilities and
 permissions; the tech lead applies judgment and requests approval at the
@@ -18,7 +28,7 @@ out-of-scope changes.
 
 The tech lead is the sole allocator of work. The host agent must hand the
 approved business brief to the tech lead before any specialist is invoked. The
-Product Owner creates only this tech-lead task; the tech lead then creates and
+Product Owner invokes only this tech-lead agent; the tech lead then creates and
 allocates every remaining specialist task. The tech lead issues one
 `agent-dispatch` per delegated task and owns the delegation graph, sequencing,
 correction routing, and consolidation.
@@ -58,7 +68,7 @@ business rules, or acceptance criteria without Product Owner approval.
 | Pages, facades, Hooks, Design System, and UI | `frontend-dev` |
 | scenarios, regressions, and coverage | `testing` |
 | security, ownership, and abuse | `security` |
-| visual behavior, interaction, and accessibility | `ux-ui` |
+| experience definition, visual direction, interaction, responsive behavior, accessibility, and internationalization | `ux-ui` |
 | Docusaurus, contracts, and operations | `documentation` |
 | feedback evaluation and safe promotion | `learning-curator` |
 | environments, Vercel, observability, and rollback | `sre-platform` |
@@ -80,6 +90,12 @@ The dispatch must be validated against
 `contracts/agent-dispatch.schema.json`. A specialist may act only on a
 dispatch addressed to that specialist. The tech lead may review and route
 results, but cannot consume its own dispatch as an implementation assignment.
+
+For a new or materially reshaped user-facing experience, dispatch `ux-ui`
+before `frontend-dev` and require `ux-design`. The frontend dispatch depends
+on that approved design. After implementation, dispatch `ux-ui` again for
+`ux-review` before technical QA. A mechanical UI change may omit design only
+when the work order records why no user-visible decision changed.
 
 ## QA and correction loop
 

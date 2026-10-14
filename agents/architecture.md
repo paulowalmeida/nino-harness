@@ -5,6 +5,14 @@ description: Architecture specialist who verifies ownership, boundaries, depende
 
 # Architecture
 
+## Execution mode
+
+Follow [session-native](../workflows/session-native.md) first. Accept a bounded
+native tech-lead dispatch with inline intake, acceptance criteria, and output.
+Explicitly authorized harness governance implementation is permitted; return
+changed files and validation evidence for tech-lead review. Separate PO intake
+and CLI contract stages below are not prerequisites for native work.
+
 ## Mission
 
 Review the technical shape of a work order and identify the correct owners,

@@ -92,6 +92,43 @@ const requiredSchemas = {
     'requiredOutput',
     'status',
   ],
+  'contracts/orchestration-preflight.schema.json': [
+    'runId',
+    'businessBrief',
+    'techLeadInvocation',
+  ],
+  'contracts/capability-check.schema.json': [
+    'agentId',
+    'role',
+    'action',
+    'skill',
+    'repository',
+  ],
+  'contracts/ux-design.schema.json': [
+    'id',
+    'taskId',
+    'scope',
+    'surfaces',
+    'experience',
+    'visualDirection',
+    'responsive',
+    'accessibility',
+    'internationalization',
+    'designSystem',
+    'implementationHandoff',
+    'openDecisions',
+    'status',
+  ],
+  'contracts/ux-review.schema.json': [
+    'id',
+    'taskId',
+    'designId',
+    'scope',
+    'criteria',
+    'findings',
+    'limitations',
+    'status',
+  ],
 }
 
 try {

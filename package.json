@@ -3,6 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "harness:plan": "node runtime/cli.mjs --plan",
+    "harness:run": "node runtime/cli.mjs --execute",
     "harness:guard": "node hooks/harness-guard.mjs",
     "harness:registry": "node hooks/registry-guard.mjs",
     "harness:references": "node hooks/reference-guard.mjs",
@@ -12,8 +14,16 @@
     "harness:profiles": "node hooks/profile-guard.mjs",
     "harness:contracts": "node hooks/contract-guard.mjs",
     "harness:orchestration": "node hooks/orchestration-guard.mjs",
+    "harness:orchestration:preflight": "node hooks/orchestration-preflight.mjs",
+    "harness:capability": "node hooks/capability-guard.mjs",
+    "harness:ux-ui": "node hooks/ux-ui-guard.mjs",
     "harness:secrets": "node hooks/secret-guard.mjs",
-    "harness:test": "node --test hooks/__tests__/*.test.mjs",
+    "harness:test": "node --test hooks/__tests__/*.test.mjs runtime/__tests__/*.test.mjs",
     "harness:feedback:guard": "node hooks/feedback-guard.mjs"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0",
+    "yaml": "^2.9.1",
+    "zod": "^4.6.5"
   }
 }

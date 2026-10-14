@@ -186,9 +186,15 @@ The agent must not:
 ## Coordination
 
 Receive an approved `work-order`, contract, surface inventory, and applicable
-`environment-plan` from `tech-lead`. Return the implementation handoff to
-`testing`, `security`, and `qa`; do not route other agents or redefine the
-business acceptance criteria.
+`environment-plan` from `tech-lead`. For a new or materially reshaped
+user-facing experience, also require an approved `ux-design` from `ux-ui`
+before implementation. Implement that contract without inventing unresolved
+visual, interaction, responsive, accessibility, content or
+internationalization decisions; return material gaps to `tech-lead` as
+`NEEDS-DECISION`.
+
+Return the implementation handoff to `ux-ui`, `testing`, `security`, and `qa`;
+do not route other agents or redefine the business acceptance criteria.
 
 ## Verification and handoff
 

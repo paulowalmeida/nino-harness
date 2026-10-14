@@ -14,11 +14,17 @@ test('language guard detects Brazilian Portuguese and accepts English', () => {
 
 test('product owner owns intake and mandatory business regression', async () => {
   const profile = await read('agents/product-owner.md')
+  const registry = await read('agents/registry.yaml')
   assert.match(profile, /business-brief/)
-  assert.match(profile, /creates only the `tech-lead` task/i)
+  assert.match(profile, /deeply[\s\S]*explore the user-visible application surface/i)
+  assert.match(profile, /MAY use browser tools/i)
+  assert.match(profile, /must not inspect implementation details/i)
+  assert.match(profile, /invoke exactly one[\s\S]*`tech-lead`/i)
   assert.match(profile, /must not create, invoke, or dispatch/i)
   assert.match(profile, /must always perform business regression/)
   assert.match(profile, /edit source code/i)
+  assert.match(registry, /skills: \[business-discovery, product-exploration, acceptance-definition, business-regression\]/)
+  assert.match(registry, /permissions: \[read, inspect, browser-checks, clarify, define-acceptance, invoke-tech-lead, review, run-checks\]/)
 })
 
 test('tech lead owns routing, iteration evidence, and feedback', async () => {
@@ -42,11 +48,16 @@ test('agent dispatch is issued by tech lead to a specialist', async () => {
 test('workflow enforces PO intake, controlled QA loop, and business regression', async () => {
   const workflow = await read('workflows/feature-delivery.yaml')
   assert.match(workflow, /dispatcher: tech-lead/)
-  assert.match(workflow, /productOwnerMayCreate: \[tech-lead\]/)
+  assert.match(workflow, /productOwnerMayInvoke: \[tech-lead\]/)
   assert.match(workflow, /specialistCreationOwner: tech-lead/)
   assert.match(workflow, /executionMode: delegated-only/)
+  assert.match(workflow, /preflightHook: hooks\/orchestration-preflight\.mjs/)
+  assert.match(workflow, /requiredCapabilityHook: hooks\/capability-guard\.mjs/)
+  assert.match(workflow, /hostTechnicalActions: BLOCKED/)
   assert.match(workflow, /onDispatcherUnavailable: BLOCKED/)
   assert.ok(workflow.indexOf('id: product-intake') < workflow.indexOf('id: brief'))
+  assert.ok(workflow.indexOf('id: product-intake') < workflow.indexOf('id: orchestration-preflight'))
+  assert.ok(workflow.indexOf('id: orchestration-preflight') < workflow.indexOf('id: brief'))
   assert.match(workflow, /maxIterations: 3/)
   assert.ok(workflow.indexOf('id: business-regression') < workflow.indexOf('id: documentation'))
   assert.ok(workflow.indexOf('id: environment-readiness') < workflow.indexOf('id: backend'))
@@ -74,10 +85,17 @@ test('business contracts reject undocumented fields', async () => {
   }
 })
 
+test('business brief supports product exploration findings', async () => {
+  const schema = JSON.parse(await read('contracts/business-brief.schema.json'))
+  assert.ok(schema.properties.currentProductBehavior)
+  assert.ok(schema.properties.productFindings)
+  assert.equal(schema.properties.productFindings.items.additionalProperties, false)
+})
+
 test('deterministic eval runner emits honest metrics', async () => {
   const { payload, exitCode } = await runEvaluations()
   assert.equal(exitCode, 0)
-  assert.equal(payload.metrics.scenarioCount, 13)
+  assert.equal(payload.metrics.scenarioCount, 17)
   assert.equal(payload.metrics.failed, 0)
   assert.equal(payload.metrics.humanInterventionRate, null)
   assert.equal(payload.metrics.selfCorrectionRate, null)

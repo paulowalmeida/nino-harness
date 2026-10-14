@@ -21,10 +21,11 @@ agents:
     status: active
     role: product-owner
     mission: Turn user intent into business tasks, acceptance criteria, priorities, and mandatory business regression checks.
+    skills: [business-discovery, product-exploration, acceptance-definition, business-regression]
     repositories: [nino-api, nino-app, nino-docs]
-    permissions: [read, inspect, clarify, define-acceptance, create-tech-lead, review, run-checks]
+    permissions: [read, inspect, browser-checks, clarify, define-acceptance, invoke-tech-lead, review, run-checks]
     forbidden: [create-specialists, edit-source, technical-routing, change-architecture, deploy]
-    creationScope: tech-lead-only
+    invocationScope: tech-lead-only
     input: user-request
     outputs: [business-brief, business-regression]
     workflow: feature-delivery
@@ -33,6 +34,7 @@ agents:
     status: active
     role: tech-lead
     mission: Lead technical delivery, choose specialists, and consolidate evidence without owning product decisions.
+    skills: [technical-planning, delegation, evidence-review]
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, plan, delegate, create-specialists, review]
     forbidden: [edit-source, change-schema, deploy, publish]
@@ -45,6 +47,7 @@ agents:
     status: active
     role: operator
     mission: Manage environments, Vercel delivery, observability, rollback readiness, and operational risk without autonomous production changes.
+    skills: [environment-readiness, operations-review, observability]
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, plan, configure, run-checks, review]
     forbidden: [mutate-production, deploy-without-approval, rotate-secrets-without-approval, skip-gates]
@@ -56,6 +59,7 @@ agents:
     status: active
     role: specialist
     mission: Define ownership, boundaries, dependencies, and contracts.
+    skills: [architecture, contract-design, ownership-review]
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, propose, review]
     forbidden: [implement-without-approval, deploy]
@@ -65,6 +69,7 @@ agents:
     status: active
     role: implementer
     mission: Implement changes in nino-api while respecting its rules and gates.
+    skills: [nestjs, prisma, api-implementation, testing]
     repositories: [nino-api]
     permissions: [read, inspect, edit-source, edit-tests, run-checks]
     forbidden: [change-product-scope, change-contract-without-approval, change-schema-without-approval, commit-without-request, deploy]
@@ -75,6 +80,7 @@ agents:
     status: active
     role: implementer
     mission: Implement changes in nino-app while respecting its Pages architecture.
+    skills: [react, pages, ui-implementation, testing]
     repositories: [nino-app]
     permissions: [read, inspect, edit-source, edit-tests, run-checks]
     forbidden: [change-api-contract-without-approval, change-product-scope, commit-without-request, deploy]
@@ -85,6 +91,7 @@ agents:
     status: active
     role: reviewer
     mission: Classify feedback and promote reusable learning with evidence and explicit approval.
+    skills: [feedback-classification, governance-proposal]
     repositories: [nino-api, nino-app, nino-docs, nino-harness]
     permissions: [read, inspect, propose, review]
     forbidden: [auto-promote, change-product-scope, change-contract-without-approval, deploy]
@@ -94,6 +101,7 @@ agents:
     status: active
     role: reviewer
     mission: Audit authorization, ownership, data exposure, and abuse.
+    skills: [appsec, authorization-review, abuse-analysis]
     repositories: [nino-api, nino-app]
     permissions: [read, inspect, review, run-checks]
     forbidden: [accept-risk-without-decision, deploy]
@@ -103,6 +111,7 @@ agents:
     status: active
     role: reviewer
     mission: Design and execute behavioral coverage and regression protection.
+    skills: [test-design, regression-testing]
     repositories: [nino-api, nino-app]
     permissions: [read, inspect, edit-tests, run-checks]
     forbidden: [weaken-tests, skip-failures]
@@ -112,6 +121,7 @@ agents:
     status: active
     role: verifier
     mission: Discover the product surface and validate acceptance criteria, real flows, integration and regressions with reproducible evidence.
+    skills: [browser-validation, integration-validation, regression-detection]
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, run-checks, browser-checks, review]
     forbidden: [edit-source, weaken-tests, accept-risk-without-decision, production-mutation]
@@ -120,17 +130,19 @@ agents:
   - id: ux-ui
     status: active
     role: specialist
-    mission: Define experience, interaction, accessibility, and Design System usage.
+    mission: Define implementation-ready Nino experiences before frontend work and verify visual, interaction, responsive, accessibility, internationalization, and Design System quality after implementation.
+    skills: [ux-ui-design, ux-ui-review, interaction-design, visual-design, responsive-design, accessibility, internationalization, design-system]
     repositories: [nino-app]
     permissions: [read, inspect, propose, review]
-    forbidden: [change-api-contract, deploy]
+    forbidden: [edit-source, change-api-contract, change-product-scope, deploy]
     requiredAdapter: nino-app
-    output: ux-review
+    outputs: [ux-design, ux-review]
 
   - id: documentation
     status: active
     role: implementer
     mission: Update contracts, operations, and technical documentation.
+    skills: [technical-writing, contract-docs, operations-docs]
     repositories: [nino-docs, nino-api, nino-app]
     permissions: [read, inspect, edit-docs, run-checks]
     forbidden: [change-source-contract, deploy]
@@ -140,6 +152,7 @@ agents:
     status: active
     role: verifier
     mission: Run gates and prepare delivery without publishing automatically.
+    skills: [release-gates, verification, delivery-readiness]
     repositories: [nino-api, nino-app, nino-docs]
     permissions: [read, inspect, run-checks, review]
     forbidden: [skip-gates, deploy-without-approval]

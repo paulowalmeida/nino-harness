@@ -1,5 +1,23 @@
 [
   {
+    "id": "NATIVE-001",
+    "title": "Native policy preserves scoped delegation and honest evidence",
+    "category": "governance",
+    "class": "adversarial",
+    "agent": "tech-lead",
+    "assertions": [
+      { "type": "file_contains", "path": "AGENTS.md", "pattern": "workflows/session-native.md" },
+      { "type": "file_contains", "path": "CLAUDE.md", "pattern": "workflows/session-native.md" },
+      { "type": "file_contains", "path": "workflows/session-native.md", "pattern": "default and takes precedence" },
+      { "type": "file_contains", "path": "workflows/session-native.md", "pattern": "deferred tools through ALL_TOOLS" },
+      { "type": "file_contains", "path": "workflows/session-native.md", "pattern": "real returned native agent/task identifier" },
+      { "type": "file_contains", "path": "workflows/session-native.md", "pattern": "wait/join/completion mechanism before reviewing" },
+      { "type": "file_contains", "path": "workflows/session-native.md", "pattern": "Do not invent execution, agent IDs,\nor use new app threads as substitutes" },
+      { "type": "file_contains", "path": "workflows/session-native.md", "pattern": "No native invocation is proven by\ndeterministic governance tests" },
+      { "type": "file_contains", "path": "workflows/session-native.md", "pattern": "Preserve technical QA and every required repository check" }
+    ]
+  },
+  {
     "id": "ARCH-001",
     "title": "Architecture profile protects ownership boundaries",
     "category": "architecture",
@@ -144,8 +162,49 @@
     "assertions": [
       { "type": "file_contains", "path": "AGENTS.md", "pattern": "sole task allocator" },
       { "type": "file_contains", "path": "agents/tech-lead.md", "pattern": "must not implement" },
-      { "type": "file_contains", "path": "agents/product-owner.md", "pattern": "creates only the `tech-lead` task" },
+      { "type": "file_contains", "path": "agents/product-owner.md", "pattern": "invoke exactly one" },
       { "type": "file_contains", "path": "contracts/agent-dispatch.schema.json", "pattern": "\"const\": \"tech-lead\"" }
+    ]
+  },
+  {
+    "id": "ORCH-002",
+    "title": "Host technical work is blocked until specialist dispatch",
+    "category": "orchestration",
+    "class": "adversarial",
+    "agent": "product-owner",
+    "assertions": [
+      { "type": "file_contains", "path": "AGENTS.md", "pattern": "must not read target-repository source" },
+      { "type": "file_contains", "path": "rules/base/orchestration-preflight.md", "pattern": "A host-owned technical action is always `BLOCKED`" },
+      { "type": "file_contains", "path": "gates/orchestration-preflight.md", "pattern": "approved `business-brief`" },
+      { "type": "file_contains", "path": "hooks/orchestration-preflight.mjs", "pattern": "host and product-owner technical actions are blocked" }
+    ]
+  },
+  {
+    "id": "CAP-001",
+    "title": "An agent cannot act outside its persona and declared skills",
+    "category": "capabilities",
+    "class": "adversarial",
+    "agent": "product-owner",
+    "assertions": [
+      { "type": "file_contains", "path": "rules/base/capability-boundary.md", "pattern": "An agent may act only when all four identities match" },
+      { "type": "file_contains", "path": "gates/capability-boundary.md", "pattern": "blocks when the action is absent from the agent permissions" },
+      { "type": "file_contains", "path": "hooks/capability-guard.mjs", "pattern": "does not declare skill" },
+      { "type": "file_contains", "path": "agents/registry.yaml", "pattern": "skills: [business-discovery, product-exploration, acceptance-definition, business-regression]" }
+    ]
+  },
+  {
+    "id": "UX-001",
+    "title": "UX/UI defines user-facing experiences before frontend implementation",
+    "category": "ux-ui",
+    "class": "adversarial",
+    "agent": "ux-ui",
+    "hooks": ["ux-ui-guard"],
+    "assertions": [
+      { "type": "registry_agent", "id": "ux-ui", "fields": { "status": "active", "role": "specialist" } },
+      { "type": "file_contains", "path": "skills/nino-ux-ui/SKILL.md", "pattern": "Define or review Nino user-facing screens" },
+      { "type": "file_contains", "path": "rules/base/ux-ui.md", "pattern": "before\n`frontend-dev` implements" },
+      { "type": "workflow_stage_order", "stages": ["surface-discovery", "ux-design", "frontend", "ux-review", "qa"] },
+      { "type": "file_contains", "path": "hooks/ux-ui-guard.mjs", "pattern": "frontend must depend on ux-design" }
     ]
   }
 ]

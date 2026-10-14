@@ -11,6 +11,34 @@
     "priority": { "enum": ["low", "medium", "high", "urgent"] },
     "scope": { "type": "array", "items": { "type": "string", "minLength": 1 } },
     "outOfScope": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "currentProductBehavior": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["journeyId", "summary"],
+        "properties": {
+          "journeyId": { "type": "string", "minLength": 1 },
+          "summary": { "type": "string", "minLength": 1 },
+          "evidence": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "productFindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "userImpact", "evidence"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "description": { "type": "string", "minLength": 1 },
+          "userImpact": { "type": "string", "minLength": 1 },
+          "journeys": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+          "evidence": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } }
+        },
+        "additionalProperties": false
+      }
+    },
     "acceptanceCriteria": {
       "type": "array",
       "minItems": 1,
@@ -39,7 +67,7 @@
       }
     },
     "decisionsRequired": { "type": "array", "items": { "type": "string", "minLength": 1 } },
-    "status": { "enum": ["NEEDS-DECISION", "READY-FOR-TECHNICAL-TRANSLATION", "BLOCKED"] }
+    "status": { "enum": ["NEEDS-DECISION", "APPROVED", "READY-FOR-TECHNICAL-TRANSLATION", "BLOCKED"] }
   },
   "additionalProperties": false
 }

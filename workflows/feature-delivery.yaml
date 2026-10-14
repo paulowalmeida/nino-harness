@@ -6,10 +6,14 @@ owner: product-owner
 orchestration:
   dispatcher: tech-lead
   bootstrapAgent: tech-lead
-  productOwnerMayCreate: [tech-lead]
+  productOwnerMayInvoke: [tech-lead]
   specialistCreationOwner: tech-lead
   executionMode: delegated-only
   requiredDispatchContract: contracts/agent-dispatch.schema.json
+  preflightHook: hooks/orchestration-preflight.mjs
+  requiredCapabilityHook: hooks/capability-guard.mjs
+  requiredBusinessBriefStatus: APPROVED
+  hostTechnicalActions: BLOCKED
   onDispatcherUnavailable: BLOCKED
   implementationAuthority: specialist-dispatch-only
 
@@ -26,9 +30,15 @@ stages:
     dependsOn: []
     output: business-brief
 
+  - id: orchestration-preflight
+    agent: product-owner
+    dependsOn: [product-intake]
+    output: tech-lead-handoff
+    gate: orchestration-preflight
+
   - id: brief
     agent: tech-lead
-    dependsOn: [product-intake]
+    dependsOn: [orchestration-preflight]
     output: work-order
 
   - id: architecture
@@ -57,6 +67,13 @@ stages:
     dispatch: required
     output: surface-inventory
 
+  - id: ux-design
+    agent: ux-ui
+    dependsOn: [brief, contract, surface-discovery]
+    dispatch: required
+    output: ux-design
+    optionalWhen: non-user-facing-or-mechanical-ui-change
+
   - id: backend
     agent: backend-dev
     dependsOn: [contract, surface-discovery, environment-readiness]
@@ -66,14 +83,14 @@ stages:
 
   - id: frontend
     agent: frontend-dev
-    dependsOn: [contract, environment-readiness]
+    dependsOn: [contract, environment-readiness, ux-design]
     dispatch: required
     parallelGroup: implementation
     output: implementation-handoff
 
   - id: ux-review
     agent: ux-ui
-    dependsOn: [frontend]
+    dependsOn: [frontend, ux-design]
     dispatch: required
     output: ux-review
     optionalWhen: non-user-facing-change
@@ -147,3 +164,4 @@ stages:
     dispatch: required
     output: release-report
     approval: production-action
+# Optional CLI workflow; active sessions default to workflows/session-native.md.

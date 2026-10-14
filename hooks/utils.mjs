@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url'
 
 export const hooksDirectory = dirname(fileURLToPath(import.meta.url))
 export const harnessRoot = resolve(hooksDirectory, '..')
+const ignoredDirectories = new Set(['.git', 'node_modules', '.runs'])
 
 export async function readText(relativePath) {
   return readFile(join(harnessRoot, relativePath), 'utf8')
@@ -44,7 +45,7 @@ export async function listFiles(relativeDirectory) {
   const files = []
 
   for (const entry of entries) {
-    if (entry.name === '.git') continue
+    if (ignoredDirectories.has(entry.name)) continue
     const relativePath = join(relativeDirectory, entry.name)
     if (entry.isDirectory()) files.push(...(await listFiles(relativePath)))
     else files.push(relativePath)
